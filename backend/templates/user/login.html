@@ -1,0 +1,28 @@
+{{> header}}
+{{> style user/login}}
+{{> body_start}}
+<div id="searchFilter" class="leftColumn">
+	{{> search/linkonly}}
+</div>
+<div class="mainColumn">
+	<form id="login" action="{{public}}inloggen?next={{? next}}" method="post">
+		{{& token}}
+		<fieldset class="emailaddress">
+			<label for="emailaddress">E-mailadres</label>
+			<input id="emailaddress" type="text" name="emailaddress" autocapitalize="none">
+		</fieldset>
+		<fieldset class="password">
+			<label for="password">Wachtwoord</label>
+			<input id="password" type="password" name="password">
+		</fieldset>
+		{{# message}}
+			<p class="message">{{message}}</p>
+		{{/ message}}
+		<fieldset class="submit">
+			<input type="submit" class="submit" value="Inloggen">
+		</fieldset>
+	</form>
+	<p><a href="{{public}}wachtwoord/herstellen">Wachtwoord vergeten</a>?</p>
+</div>
+{{> body_end}}
+{{> footer}}
