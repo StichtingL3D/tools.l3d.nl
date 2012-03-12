@@ -65,7 +65,7 @@ public static function validate($data, $rules, $silent=false) {
 		
 		try {
 			// handle non-existing data
-			if (empty($data[$key]) && isset($single_ruleset['required'])) {
+			if (empty($data[$key]) && isset($single_ruleset['required']) && isset($single_ruleset['req'])) {
 				throw new ValidationException('required');
 			}
 			elseif (empty($data[$key])) {
@@ -207,6 +207,7 @@ private static function validate_single($data, $key=null, $rules) {
 	}
 }
 
+// copied to upload helper
 private static function convert_ruleset($ruleset) {
 	// make sure one ruleset can cope with rules with and without arguments
 	/*
