@@ -1,0 +1,16 @@
+{{> header}}
+{{> body_start}}
+	<h2>Add your objects to the world</h2>
+	<form action="{{public}}upload" method="post" enctype="multipart/form-data">
+		<select name="type">
+			<option value="objects" selected="selected">Object</option>
+			<option value="textures">Texture (images on objects)</option>
+			<option value="sounds">Sound</option>
+			<option value="avatars">Avatar</option>
+			<option value="seqs">Sequence (with avatars)</option>
+		</select>
+		<input type="file" name="file">
+		<input type="submit" value="Add to BBCN">
+	</form>
+{{> body_end}}
+{{> footer}}
