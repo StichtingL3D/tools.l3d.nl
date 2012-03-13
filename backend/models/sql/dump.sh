@@ -6,7 +6,7 @@ read -s -p "MySQL root password: " mysqlrootpass
 echo
 
 echo Dumping main tables..
-for tables in forms sessions users
+for tables in cronjobs forms sessions users
 do
 	echo - $tables
 	mysqldump -u root -p$mysqlrootpass --compact --no-data l3dtools $tables | sed 's/AUTO_INCREMENT=[0-9]*\b//' > $scriptdir/$tables.sql

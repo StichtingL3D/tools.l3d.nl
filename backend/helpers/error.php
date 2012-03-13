@@ -91,7 +91,7 @@ private static function add_server_info($exception=false, $type=false) {
 			$info .= $exception->getTraceAsString().NL;
 			$info .= NL;
 			$info .= 'Previous exception:'.NL;
-			$info .= $exception->getPrevious().NL;
+			#$info .= $exception->getPrevious().NL;
 		}
 		elseif (is_string($exception)) {
 			$info .= 'Error: *'.$exception.'*'.NL;
