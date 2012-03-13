@@ -45,20 +45,18 @@ if (is_readable($file['tmp_name']) == false) {
 }
 
 // prepare
-$remote_host = 'props.l3d.nl';
-$remote_user = 'bbcn';
-$remote_pass = '-';
-$remote_path = '/home/bbcn/objectpath/'.$type.'/';
+$config = load::config('upload');
+$remote_path = $config['path'].$type.'/';
 $remote_file = basename($file['name']);
 if (preg_match('/[^a-z0-9._-]/', $remote_file)) {
 	die('preg_match('.$remote_file.') => false, only a-z 0-9 .(dot) _(underscore) -(dash)');
 }
 
-$remote_connection = ftp_connect($remote_host); // use ssh2_sftp() for sftp
+$remote_connection = ftp_connect($config['host']); // use ssh2_sftp() for sftp
 if ($remote_connection == false) {
 	die('ftp_connect => false ('.$remote_connection.')');
 }
-$remote_login_check = ftp_login($remote_connection, $remote_user, base64_decode($remote_pass));
+$remote_login_check = ftp_login($remote_connection, $config['user'], base64_decode($config['pass']));
 if ($remote_login_check == false) {
 	die('ftp_login => false ('.$remote_login_check.')');
 }
@@ -80,7 +78,7 @@ if ($remote_close_check == false) {
 
 echo 'everything ok, '.substr($type, 0, -1).' '.$remote_file.' uploaded to OP.'.NL;
 if ($type == 'textures') {
-	echo '<img src="http://mops.l3d.nl/bbcn/textures/'.$remote_file.'" style="max-width: 400; max-height: 300px; border: 1px solid #AAA;">';
+	echo '<br><img src="http://mops.l3d.nl/bbcn/textures/'.$remote_file.'" style="max-width: 400; max-height: 300px; border: 1px solid #AAA;">';
 }
 die;
 
