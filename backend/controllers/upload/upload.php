@@ -60,13 +60,18 @@ $remote_login_check = ftp_login($remote_connection, $config['user'], base64_deco
 if ($remote_login_check == false) {
 	die('ftp_login => false ('.$remote_login_check.')');
 }
-
-// send
 #ftp_pasv($remote_connection, true); // remedy for all kind of ftp errors, see php.net/function.ftp-put.php.html#90518 and more
+
 $remote_chdir_check = ftp_chdir($remote_connection, $remote_path);
 if ($remote_chdir_check == false) {
 	die('ftp_chdir => false ('.$remote_chdir_check.')');
 }
+$remote_exists_check = ftp_size($remote_connection, $remote_file);
+if ($remote_exists_check > 0) {
+	die('ftp_size => false (file already exists)');
+}
+
+// send
 $remote_upload_check = ftp_put($remote_connection, $remote_file, $file['tmp_name'], FTP_BINARY);
 if ($remote_upload_check == false) {
 	die('ftp_put => false ('.$remote_upload_check.')');
