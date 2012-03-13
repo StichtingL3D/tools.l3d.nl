@@ -150,7 +150,7 @@ private static function add_user_data(&$data) {
 	);
 	$request_basis = REQUEST;
 	if (strpos(REQUEST, '/') || strpos(REQUEST, '?')) {
-		$request_basis_endpoint = (strpos(REQUEST, '/')) ?: strpos(REQUEST, '?');
+		$request_basis_endpoint = (strpos(REQUEST, '/')) ? strpos(REQUEST, '/') : strpos(REQUEST, '?');
 		$request_basis = substr(REQUEST, 0, $request_basis_endpoint);
 	}
 	if (isset($active_items[$request_basis])) {

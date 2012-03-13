@@ -8,7 +8,8 @@ if (file_exists($public.'-backend')) {
 	$private = $public.'-backend';
 }
 else {
-	$private = realpath($public.'/..');
+	#$private = realpath($public.'/..');
+	$private = realpath($public.'/../../cs-framework');
 }
 
 require_once($private.'/backend/bootstrap.php');

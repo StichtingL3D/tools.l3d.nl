@@ -29,7 +29,8 @@ if (file_exists($private.'/public_html')) {
 	define('ENVIRONMENT', 'development');
 }
 else {
-	$public = realpath(substr($private, 0, strpos($private, '-backend')));
+	#$public = realpath(substr($private, 0, strpos($private, '-backend')));
+	$public = realpath($private.'/../public_html/upload');
 	
 	$release = basename($public);
 	$release = ($release == 'DEFAULT') ? 'production' : $release;
