@@ -1,0 +1,15 @@
+#login fieldset {
+	margin: 0.5em 0;
+	padding: 0;
+	border: none;
+}
+#login label {
+	display: inline-block;
+	width: 125px;
+}
+#login .emailaddress input, #login .password input {
+	padding: 0.25em 0.125em;
+}
+#login .submit input {
+	margin-left: 130px;
+}

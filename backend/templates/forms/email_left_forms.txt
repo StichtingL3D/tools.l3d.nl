@@ -1,0 +1,17 @@
+Hey
+
+De achtergelaten formulieren van deze week. Interessant voor de statistieken?
+{{waiting}}
+(pagina's met formulieren die niet zijn ingevuld; pagina is verlaten)
+{{^ waiting}}
+(geen achtergelaten formulieren)
+{{/ waiting}}
+
+Er zijn ook wat problemen met formulieren geweest, hoofdzakelijk 'hacking attempts'.
+{{errors}}
+{{^ errors}}
+(geen fouten)
+{{/ errors}}
+
+Groetjes
+de papegaai-in-wording

@@ -33,7 +33,7 @@ else {
 	$public = realpath($private.'/../public_html/upload');
 	
 	$release = basename($public);
-	$release = ($release == 'DEFAULT') ? 'production' : $release;
+	$release = ($release == 'upload') ? 'production' : $release;
 	define('ENVIRONMENT', $release);
 }
 
@@ -93,8 +93,8 @@ $places = array(
 	'public'       => $public.'/',
 	'frontend'     => $public.'/frontend/',
 	
-	'www'          => 'http://'.APP_DOMAIN.'/',
-	'www_frontend' => 'http://'.APP_DOMAIN.'/frontend/',
+	'www'          => 'http://'.APP_DOMAIN.'/upload/',
+	'www_frontend' => 'http://'.APP_DOMAIN.'/upload/frontend/',
 );
 
 define('PLACES', json_encode($places));

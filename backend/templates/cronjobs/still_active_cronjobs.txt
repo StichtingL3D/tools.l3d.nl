@@ -1,0 +1,12 @@
+Deze cronjobs zijn gestart maar nooit gestopt.
+{{# still_active_cronjobs}}
+
+#{{id}} cronjobs/*{{filename}}*.php::*{{function}}*() ({{status}} vanaf {{start_from}})
+	{{# arguments_short}}
+		{{arguments_short}}
+	{{/ arguments_short}}
+{{/ still_active_cronjobs}}
+
+Kijk in de betreffende functies, of eventueel in models/cronjob.php::execute().
+
+Groetjes, de website

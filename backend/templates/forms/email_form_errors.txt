@@ -1,0 +1,19 @@
+Hey
+
+Heeft de helpdesk tijd? Iemand heeft nu ({{time}}) problemen met het *{{name}}* formulier.
+
+Ingevuld:
+{{post}}
+
+Fouten:
+{{errors}}
+(volgens deze regels)
+{{rules}}
+
+Door gebruiker (en fotograaf):
+{{user}}
+{{pg}}
+
+Groetjes
+de papegaai-in-wording
+{{app_domain}}
