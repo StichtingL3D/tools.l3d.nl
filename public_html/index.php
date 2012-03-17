@@ -4,11 +4,13 @@
 ------------------------------------------------------------------------------*/
 
 $public = dirname(__FILE__);
-if (file_exists($public.'-backend')) {
+if (basename($public) == 'public_html') {
+	$private = realpath($public.'/..');
+}
+elseif (file_exists($public.'-backend')) {
 	$private = $public.'-backend';
 }
 else {
-	#$private = realpath($public.'/..');
 	$private = realpath($public.'/../../cs-framework');
 }
 
