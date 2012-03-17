@@ -73,7 +73,7 @@ FileETag None
 <IfModule mod_rewrite.c>
 	Options +FollowSymLinks
 	RewriteEngine On
-	RewriteBase /upload/
+	RewriteBase /
 	
 	# ------------------------------------------------------------------------------
 	# blocking certain users

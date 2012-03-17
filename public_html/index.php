@@ -4,14 +4,11 @@
 ------------------------------------------------------------------------------*/
 
 $public = dirname(__FILE__);
-if (basename($public) == 'public_html') {
-	$private = realpath($public.'/..');
-}
-elseif (file_exists($public.'-backend')) {
+if (file_exists($public.'-backend')) {
 	$private = $public.'-backend';
 }
 else {
-	$private = realpath($public.'/../../cs-framework');
+	$private = realpath($public.'/..');
 }
 
 require_once($private.'/backend/bootstrap.php');
@@ -20,7 +17,7 @@ require_once($places['backend'].'load.php');
 /*------------------------------------------------------------------------------
 	dating for requests, finding an accompanying controller
 ------------------------------------------------------------------------------*/
-$default_controller = 'upload/upload';
+$default_controller = 'user/login';
 $request = '';
 $controller = '';
 $arguments = array();

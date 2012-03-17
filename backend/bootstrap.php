@@ -29,11 +29,10 @@ if (file_exists($private.'/public_html')) {
 	define('ENVIRONMENT', 'development');
 }
 else {
-	#$public = realpath(substr($private, 0, strpos($private, '-backend')));
-	$public = realpath($private.'/../public_html/upload');
+	$public = realpath(substr($private, 0, strpos($private, '-backend')));
 	
 	$release = basename($public);
-	$release = ($release == 'upload') ? 'production' : $release;
+	$release = ($release == 'DEFAULT') ? 'production' : $release;
 	define('ENVIRONMENT', $release);
 }
 
@@ -93,8 +92,8 @@ $places = array(
 	'public'       => $public.'/',
 	'frontend'     => $public.'/frontend/',
 	
-	'www'          => 'http://'.APP_DOMAIN.'/upload/',
-	'www_frontend' => 'http://'.APP_DOMAIN.'/upload/frontend/',
+	'www'          => 'http://'.APP_DOMAIN.'/',
+	'www_frontend' => 'http://'.APP_DOMAIN.'/frontend/',
 );
 
 define('PLACES', json_encode($places));

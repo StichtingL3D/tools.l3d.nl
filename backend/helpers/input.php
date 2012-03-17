@@ -65,7 +65,7 @@ public static function validate($data, $rules, $silent=false) {
 		
 		try {
 			// handle non-existing data
-			if (empty($data[$key]) && isset($single_ruleset['required']) && isset($single_ruleset['req'])) {
+			if (empty($data[$key]) && (isset($single_ruleset['required']) || isset($single_ruleset['req']))) {
 				throw new ValidationException('required');
 			}
 			elseif (empty($data[$key])) {
