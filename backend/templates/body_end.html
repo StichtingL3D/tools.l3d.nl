@@ -1,8 +1,35 @@
-	</div>
-	<div id="footerpusher"></div>
+</div>
+<div id="right">
+	<ul>
+		{{# user.is_citizen_or_higher}}
+			<li><a href="{{public}}objecten">Objecten</a></li>
+		{{/ user.is_citizen_or_higher}}
+		<li><a href="{{public}}tentoonstelling">Tentoonstelling</a></li>
+		<li><a href="{{public}}3dwiki">3Dwiki</a></li>
+		{{# user.is_citizen_or_higher}}
+			<li><a href="{{public}}telegrammen">Telegrammen</a></li>
+		{{/ user.is_citizen_or_higher}}
+		{{# user.is_worldct_or_higher}}
+			<li><a href="{{public}}statistieken">Statistieken</a></li>
+			<li><a href="{{public}}status">Status</a></li>
+		{{/ user.is_worldct_or_higher}}
+	</ul>
+	<ul id="user-menu">
+		{{# user.is_loggedin}}
+			<li><a href="{{public}}bewoner/{{user.vanity}}">{{user.name}}</a></li>
+			<li><a href="{{public}}instellingen">Instellingen</a></li>
+			<li><a href="{{public}}uitloggen">Uitloggen</a></li>
+		{{/ user.is_loggedin}}
+		{{^ user.is_loggedin}}
+			<li><a href="{{public}}inloggen">Inloggen</a></li>
+		{{/ user.is_loggedin}}
+	</ul>
+</div>
+<div id="footerpusher"></div>
 </div> <!--! end of #container -->
 <div id="footer">
 	<div id="footerbox">{{! gives padding, needed because of sticky footer}}
+		<p>Stichting L3D</p>
 	</div>
 </div>
 
@@ -10,3 +37,4 @@
 <script>window.jQuery || document.write('<script src="{{frontend}}js/jquery/jquery-1.7.1.min.js"><\/script>')</script>
 
 {{> script mobile-labels}}
+{{> script generic}}

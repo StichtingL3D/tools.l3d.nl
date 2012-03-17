@@ -28,6 +28,8 @@ public function __construct($id) {
 	user specific
 ------------------------------------------------------------------------------*/
 public function goto_home($next=false) {
+	$new_page = '';
+	
 	// catch the requested 'next' page
 	if ($next == false && !empty($_GET['next'])) {
 		$next = input::url_argument($_GET['next']);
@@ -143,6 +145,13 @@ public function is_webmaster() {
 /*------------------------------------------------------------------------------
 	level check extra
 ------------------------------------------------------------------------------*/
+public function is_citizen_or_higher() {
+	if ($this->is_citizen() || $this->is_worldct_or_higher()) {
+		return true;
+	}
+	return false;
+}
+
 public function is_worldct_or_higher() {
 	if ($this->is_worldct() || $this->is_l3dmember_or_higher()) {
 		return true;

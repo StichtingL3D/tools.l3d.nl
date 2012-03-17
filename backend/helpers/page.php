@@ -135,18 +135,14 @@ private static function add_user_data(&$data) {
 	
 	// make the active menu item
 	$active_items = array(
-		'portretfoto'   => 'search',
-		'fotograaf'     => 'search',
-		'locaties'      => 'locations',
-		'missie'        => 'mission',
-		'team'          => 'team',
-		'wat_is_het' 	=> 'what',
-		'valentijn' 	=> 'valentijn',
-		'dashboard'     => 'dashboard',
-		'beheer'        => 'admin',
-		'inloggen'      => 'login',
-		'info_voor_fotografen'    => 'photographers_info',
-		'aanmelden_als_fotograaf' => 'photographers_info',
+		'objecten'        => 'objects',
+		'tentoonstelling' => 'gallery',
+		'3dwiki'          => '3dwiki',
+		'telegrammen'     => 'telegrams',
+		'statistieken'    => 'statistics',
+		'status'          => 'status',
+		'inloggen'        => 'login',
+		'instellingen'    => 'settings',
 	);
 	$request_basis = REQUEST;
 	if (strpos(REQUEST, '/') || strpos(REQUEST, '?')) {
@@ -164,63 +160,24 @@ private static function add_user_data(&$data) {
 		// add user variables to the data
 		if ($session->user_id) {
 			$user = load::model('user', $session->user_id);
-
+			
 			$data['user']['is_loggedin'] = true;
 			$data['user']['id'] = $session->user_id;
-			$data['user']['full_name'] = $user->full_name;
-			$data['user']['emailaddress'] = $user->emailaddress;
 			$data['user']['level'] = $user->level;
-			$data['user']['is_client'] = $user->is_client();
-			$data['user']['is_photographer'] = $user->is_photographer();
-			$data['user']['is_photographer_or_higher'] = $user->is_photographer_or_higher();
-			$data['user']['is_ambassador'] = $user->is_ambassador();
-			$data['user']['is_ambassador_or_higher'] = $user->is_ambassador_or_higher();
-			$data['user']['is_admin'] = $user->is_admin();
-			$data['user']['is_admin_or_higher'] = $user->is_admin_or_higher();
-			$data['user']['is_webmaster'] = $user->is_webmaster();
+			$data['user']['is_'.$user->level] = true;
+			$data['user']['is_citizen_or_higher'] = $user->is_citizen_or_higher();
+			$data['user']['is_worldct_or_higher'] = $user->is_worldct_or_higher();
+			$data['user']['is_l3dmember_or_higher'] = $user->is_l3dmember_or_higher();
+			$data['user']['is_universect_or_higher'] = $user->is_universect_or_higher();
 			
 			// extra levels
-			if ($user->level == 'ambassador' || $user->level == 'admin' || $user->level == 'webmaster') {
+			if ($user->level == 'universect' || $user->level == 'webmaster') {
 				$data['user']['has_admin_access'] = true;
-			}
-			
-			// add more as photographer
-			$photographers = load::model('photographers');
-			$pg = $photographers->find_by_userid($session->user_id, $extended=true);
-			if ($pg) {
-				$data['user']['has_active_profile'] = $pg['profile_active'];
-				$data['user']['photographer_id'] = $pg['id'];
-				$data['user']['photographer_photo'] = $pg['photo'];
-				$data['user']['photographer_vanity'] = $pg['profile_vanity'];
 			}
 		}
 	}
 	catch (Exception $e) {
 		// continue without user variables
-	}
-	
-	// add active profile for owning photographer
-	if (isset($data['user']['photographer_vanity']) && strpos(REQUEST, 'fotograaf/'.$data['user']['photographer_vanity']) === 0) {
-		$data['active']['search'] = false;
-		$data['active']['profile'] = true;
-	}
-	
-	// have a look for a booking
-	try {
-		$booking_session = load::model('session', $else=false, $id=false, 'booking');
-		if ($booking_session->get('confirmed')) {
-			$data['booking']['done'] = true;
-		}
-		else {
-			$data['booking']['preparing'] = true;
-			
-			if (strpos(REQUEST, 'boeken/') === false && strpos(REQUEST, 'beschikbaarheid/') === false) {
-				$data['booking']['distracted'] = true;
-			}
-		}
-	}
-	catch (Exception $e) {
-		// continue without booking data
 	}
 }
 

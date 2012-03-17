@@ -213,6 +213,9 @@ public function is_not_webmaster() {
 	return ($this->is_webmaster()) ? false : true;
 }
 
+public function is_citizen_or_higher() {
+	return ($this->is_citizen() || $this->is_worldct_or_higher());
+}
 public function is_worldct_or_higher() {
 	return ($this->is_worldct() || $this->is_l3dmember_or_higher());
 }
@@ -252,18 +255,9 @@ protected function check_user_requirements($require_level, $require_id=false) {
 	
 	// check the level
 	$user = load::model('user', $session_user_id);
-	if ($require_level == 'universect+') {
-		if ($user->is_universect_or_higher() == false) {
-			throw new Exception('wrong user-level');
-		}
-	}
-	elseif ($require_level == 'l3dmember+') {
-		if ($user->is_l3dmember_or_higher() == false) {
-			throw new Exception('wrong user-level');
-		}
-	}
-	elseif ($require_level == 'worldct+') {
-		if ($user->is_worldct_or_higher() == false) {
+	if (strpos($require_level, '+')) {
+		$require_level_function = 'is_'.str_replace('+', '_or_higher', $require_level);
+		if (call_user_func(array($user, $require_level_function)) == false) {
 			throw new Exception('wrong user-level');
 		}
 	}

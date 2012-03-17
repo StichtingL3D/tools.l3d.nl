@@ -1,27 +1,28 @@
 {{> header}}
 {{> style user/login}}
 {{> body_start}}
-<div id="searchFilter" class="leftColumn">
-</div>
-<div class="mainColumn">
 	<form id="login" action="{{public}}inloggen?next={{? next}}" method="post">
 		{{& token}}
-		<fieldset class="emailaddress">
-			<label for="emailaddress">E-mailadres</label>
+		<div class="inline">
+			<label for="emailaddress">Bewonernaam</label>
 			<input id="emailaddress" type="text" name="emailaddress" autocapitalize="none">
-		</fieldset>
-		<fieldset class="password">
+		</div>
+		<div class="inline">
 			<label for="password">Wachtwoord</label>
 			<input id="password" type="password" name="password">
-		</fieldset>
+		</div>
+		
 		{{# message}}
 			<p class="message">{{message}}</p>
 		{{/ message}}
-		<fieldset class="submit">
-			<input type="submit" class="submit" value="Inloggen">
-		</fieldset>
+		
+		<div class="inline">
+			<input type="submit" value="Inloggen">
+		</div>
 	</form>
+	<p>Je kunt ook inloggen met je e-mailadres of bewonernummer.</p>
+	<!--
 	<p><a href="{{public}}wachtwoord/herstellen">Wachtwoord vergeten</a>?</p>
-</div>
+	-->
 {{> body_end}}
 {{> footer}}

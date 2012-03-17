@@ -3,6 +3,9 @@
 	upload: uploading files to an objectpath, not needing port 21
 ------------------------------------------------------------------------------*/
 
+$session = load::model('session', $else='login');
+$session->require_level('citizen+', $else='login');
+
 /*
 echo '$_GET:'; print_r($_GET);
 echo '$_POST:'; print_r($_POST);
@@ -49,7 +52,7 @@ if (empty($_POST)) {
 		'upload_max_filesize' => phpini_to_bytes(ini_get('upload_max_filesize')),
 	);
 	
-	page::title('Upload');
+	page::title('Objecten');
 	page::show('upload/form', $data);
 	exit;
 }
@@ -126,7 +129,7 @@ function show_error($message) {
 		),
 	);
 	
-	page::title('Upload');
+	page::title('Objecten');
 	page::show('upload/form', $data);
 	exit;
 }
@@ -138,7 +141,7 @@ function show_message($debug, $message) {
 		'debug' => $debug,
 	);
 	
-	page::title('Upload');
+	page::title('Objecten');
 	page::show('upload/form', $data);
 	exit;
 }
@@ -153,7 +156,7 @@ function show_uploaded($type, $remote_file) {
 		),
 	);
 	
-	page::title('Upload');
+	page::title('Objecten');
 	page::show('upload/form', $data);
 	exit;
 }

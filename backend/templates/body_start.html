@@ -1,6 +1,12 @@
 </head>
 <body>
 <div id="container">
-	<div id="header">
-	</div>
-	<div id="main">
+<div id="header">
+	{{^ page_title}}
+		<h1><span>L3tools</span></h1>
+	{{/ page_title}}
+	{{# page_title}}
+		<h1><a href="{{public}}">L3tools</a>: <span>{{page_title}}</span></h1>
+	{{/ page_title}}
+</div>
+<div id="main">

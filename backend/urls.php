@@ -9,6 +9,10 @@ function request2controller($request, &$controller, &$arguments) {
 	/*--- development ---*/
 	
 	if (ENVIRONMENT == 'development') {
+		
+		// dev
+		$rules['{^dev/users$}'] = 'dev/users';
+		
 	}
 	
 	/*--- test ---*/
@@ -25,8 +29,12 @@ function request2controller($request, &$controller, &$arguments) {
 	// basics
 	$rules['{^home$}'] = 'home';
 	
-	// uploading
-	$rules['{^upload$}'] = 'upload/upload';
+	// objects
+	$rules['{^objecten$}'] = 'objects/overview';
+	$rules['{^objecten/toevoegen$}'] = 'objects/upload';
+	
+	// gallery
+	$rules['{^tentoonstelling$}'] = 'gallery/overview';
 	
 	// user accounts
 	$rules['{^inloggen$}'] = 'user/login';

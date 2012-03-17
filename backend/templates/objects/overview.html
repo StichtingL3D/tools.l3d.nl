@@ -1,0 +1,35 @@
+{{> header}}
+{{> style objects/generic}}
+{{> body_start}}
+	<p id="upload-open"><a class="button" href="{{public}}objecten#toevoegen-openen">object toevoegen</a></p>
+	<div id="upload-container">
+		<p id="upload-close"><a class="button" href="{{public}}objecten#toevoegen-sluiten">sluiten</a></p>
+		<h2>Toevoegen</h2>
+		<div id="dropbox">
+			<p>drop hier je object</p>
+		</div>
+		<div class="revealElement" title="Bladeren naar objecten">
+			<form action="{{public}}objecten/toevoegen" method="post" enctype="multipart/form-data">
+				<input type="hidden" name="MAX_FILE_SIZE" value="{{upload_max_filesize}}">
+				<input type="file" name="file">
+				<input type="submit" value="Toevoegen">
+			</form>
+		</div>
+	</div>
+	
+	{{# recent}}
+	<h2>Recent toegevoegd</h2>
+	{{/ recent}}
+	
+	{{# populair}}
+	<h2>Populair</h2>
+	{{/ populair}}
+	
+	<h2>Alle objecten</h2>
+	<form action="{{public}}objecten">
+		<input type="text" name="q">
+		<input type="submit" value="zoeken">
+	</form>
+{{> body_end}}
+{{> script objects/upload}}
+{{> footer}}

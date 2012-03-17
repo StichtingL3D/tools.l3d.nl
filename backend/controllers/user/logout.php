@@ -13,8 +13,8 @@ try {
 	$greeting = $greetings[$lang_key];
 	
 	header($_SERVER['SERVER_PROTOCOL'].' 732 Fucking Unicode');
-	page::title($greeting, $subtitle='Tot ziens in het '.$language);
-	page::show('user/loggedout');
+	$data = array('greeting'=>$greeting, 'language'=>$language);
+	page::show('user/loggedout', $data);
 }
 catch (Exception $e) {
 	load::error_500($e);
