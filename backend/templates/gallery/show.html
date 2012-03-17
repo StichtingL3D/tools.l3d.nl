@@ -1,0 +1,60 @@
+{{> header}}
+{{> body_start}}
+	<h2>{{name}}</h2>
+	
+	{{# recovered}}
+		<p id="recovered">{{text}}</p>
+	{{/ recovered}}
+	
+	{{# aw_action}}
+		<div id="awaction">
+			<h3>{{title}}</h3>
+			<textarea id="awaction_select">{{action}}</textarea>
+			<p>{{explain}}<!-- <a href="{{public}}help/awactie">{{explain_link}}</a>--></p>
+		</div>
+	{{/ aw_action}}
+	
+	{{^ item}}
+		<p>{{notfound_start}}<a href="{{public}}tentoonstelling">{{notfound_link}}</a>{{notfound_end}}</p>
+	{{/ item}}
+	
+	{{# type_image}}
+		<img id="{{type}}" src="{{public}}graw/{{filename}}" />
+	{{/ type_image}}
+	{{# type_audio}}
+		<div id="audioplayer">
+		</div>
+	{{/ type_audio}}
+	{{# type_video}}
+		<div id="videoembed">
+			{{# flash}}
+				{{embed}}
+			{{/ flash}}
+			{{^ flash}}
+				<p>{$header}</p>
+				<p>{$start}<a href="http://get.adobe.com/flashplayer/">Flash player 8</a>{$end}</p>
+			{{/ flash}}
+		</div>
+	{{/ type_video}}
+	
+	<div id="description">
+		{{description}}
+	</div>
+	
+	{{# user.is_citizen}}
+		<form id="translate" action="{{public}}tentoonstelling/{{request}}/vertalen" method="post">
+		<fieldset>
+			<select id="langselect" name="language">
+				<option>{{label}}</option>
+				<option value="{{code}}"{{# selected}} selected="selected"{{/ selected}}{{# active}} disabled="disabled"{{/ active}}>{{name}}</option>
+			</select>
+			<br />
+			<label for="translation">{{help}}</label>
+			<textarea id="translation" name="translation"></textarea>
+			<input class="submit" type="submit" value="{{submit}}" />
+		</fieldset>
+		</form>
+	{{/ user.is_citizen}}
+	
+{{> body_end}}
+{{> footer}}

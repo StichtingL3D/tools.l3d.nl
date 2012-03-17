@@ -1,0 +1,36 @@
+{{> header}}
+{{> body_start}}
+	<h2>Tentoonstelling van BBCN</h2>
+	
+	{{# recover_link}}
+		<p id="recover">{{start}}<a href="{{public}}tentoonstelling/{{request}}/herstellen">{{link}}</a>{{end}}</p>
+	{{/ recover_link}}
+	
+	{{^ items}}
+		<p>{{empty_start}}<a href="{{public}}tentoonstelling/toevoegen">{{empty_link}}</a>{{empty_end}}</p>
+	{{/ items}}
+	
+	<ul>
+		{{# items}}
+			<li class="{{type}}">
+				<a href="{{public}}tentoonstelling/{{name}}">
+					{{# type_image}}
+						<img src="{{public}}graw/{{filename}}" />
+					{{/ type_image}}
+					{{# type_audio}}
+						<img src="{{frontend}}img/gallery/audio-headphones.png" />
+					{{/ type_audio}}
+					{{# type_video}}
+						{{# video_type_youtube}}
+							<img class="youtube" src="http://img.youtube.com/vi/{{id}}/2.jpg" />
+						{{/ video_type_youtube}}
+						{{^ video_type_youtube}}
+							<img src="{{frontend}}img/gallery/video-tape.png" />
+						{{/ video_type_youtube}}
+					{{/ type_video}}
+				</a>
+			</li>
+		{{/ items}}
+	</ul>
+{{> body_end}}
+{{> footer}}

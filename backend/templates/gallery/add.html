@@ -1,0 +1,78 @@
+{{> header}}
+{{> body_start}}
+	<h2>Toevoegen</h2>
+	
+	{{# blocked}}
+		<p>{{message}}</p>
+	{{/ blocked}}
+	
+	<ul id="uploadtype">
+		<li{{# type_image}} class="current"{{/ type_image}}>
+			{{# type_image}}
+				{{header}} {{type_name}}
+			{{/ type_image}}
+			{{^ type_image}}
+				<a href="{{public}}tentoonstelling/toevoegen/afbeelding">{{or}} {{image_name}}</a>
+			{{/ type_image}}
+		</li>
+		
+		<li{{# type_audio}} class="current"{{/ type_audio}}>
+			{{# type_audio}}
+				{{header}} {{type_name}}
+			{{/ type_audio}}
+			{{^ type_audio}}
+				<a href="{{public}}tentoonstelling/toevoegen/geluid">{{or}} {{audio_name}}</a>
+			{{/ type_audio}}
+		</li>
+		
+		<li{{# type_video}} class="current"{{/ type_video}}>
+			{{# type_video}}
+				{{header}} {{type_name}}
+			{{/ type_video}}
+			{{^ type_video}}
+				<a href="{{public}}tentoonstelling/toevoegen/video">{{or}} {{video_name}}</a>
+			{{/ type_video}}
+		</li>
+	</ul>
+	
+	<div>
+		{{^ type_video}}
+			<form enctype="multipart/form-data" action="{{public}}tentoonstelling/toevoegen/{{request}}/uploading" method="post">
+				{{# error}}
+					<div class="error">
+						<p>{$message}</p>
+				{{/ error}}
+				<input class="hidden" type="hidden" name="MAX_FILE_SIZE" value="{{max_size}}" />
+				<label for="file" class="file">{{file_label}}</label>
+				<input id="file" name="file" type="file" />
+				{{# error}}
+					</div>
+				{{/ error}}
+				<br />
+				<label for="desc" class="desc">{{desc_label}}</label>
+				<textarea id="desc" name="desc">{{text}}</textarea>
+				<br />
+				<input class="submit" type="submit" value="{{submit}}" />
+			</form>
+		{{/ type_video}}
+		{{# type_video}}
+			<form action="{{public}}tentoonstelling/toevoegen/video" method="post">
+				{{# error}}
+					<div class="error">
+						<p>{$message}</p>
+				{{/ error}}
+				<label for="embed" class="embed">{{embed_label}}</label>
+				<textarea id="embed" name="embed"></textarea>
+				{{# error}}
+					</div>
+				{{/ error}}
+				<br />
+				<label for="desc" class="desc">{{desc_label}}</label>
+				<textarea id="desc" name="desc">{{text}}</textarea>
+				<br />
+				<input class="submit" type="submit" value="{{submit}}" />
+			</form>
+		{{/ type_video}}
+	</div>
+{{> body_end}}
+{{> footer}}
