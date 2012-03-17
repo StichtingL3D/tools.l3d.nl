@@ -35,6 +35,12 @@ function request2controller($request, &$controller, &$arguments) {
 	
 	// gallery
 	$rules['{^tentoonstelling$}'] = 'gallery/overview';
+	$rules['{^tentoonstelling/toevoegen$}'] = 'gallery/add';
+	$rules['{^tentoonstelling/(?<item>[a-z0-9-]+)$}'] = 'gallery/show';
+	$rules['{^tentoonstelling/(?<item>[a-z0-9-]+)/vertalen$}'] = 'gallery/translate';
+	$rules['{^tentoonstelling/(?<item>[a-z0-9-]+)/aanpassen$}'] = 'gallery/edit';
+	$rules['{^tentoonstelling/(?<item>[a-z0-9-]+)/verwijderen$}'] = 'gallery/delete';
+	$rules['{^tentoonstelling/(?<item>[a-z0-9-]+)/herstellen$}'] = 'gallery/recover';
 	
 	// user accounts
 	$rules['{^inloggen$}'] = 'user/login';
