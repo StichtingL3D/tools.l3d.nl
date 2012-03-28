@@ -8,4 +8,4 @@
 ------------------------------------------------------------------------------*/
 
 page::title('Tentoonstelling');
-page::show('gallery/overview');
+page::show('gallery/edit');
