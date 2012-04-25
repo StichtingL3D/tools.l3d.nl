@@ -190,7 +190,7 @@ private static function add_user_info() {
 		$info .= '*Gebruiker* (#'.$session->user_id.')';
 		try {
 			$user = load::model('user', $session->user_id);
-			$user_email = $user->get_property('emailaddress');
+			$user_email = $user->emailaddress;
 			$info .= ' '.$user_email.'.'.NL;
 			
 			// a photographer

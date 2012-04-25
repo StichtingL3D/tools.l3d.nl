@@ -4,11 +4,11 @@ try {
 	$sessions->delete_current();
 	
 	// goodbye!
-	$languages = load::config('logout', 'languages');
-	$greetings = load::config('logout', 'greetings');
+	$languages = new config('logout', 'languages');
+	$greetings = new config('logout', 'greetings');
 	
 	$total = count($languages);
-	$lang_key = array_rand($languages);
+	$lang_key = array_rand($languages->get_as_array());
 	$language = $languages[$lang_key];
 	$greeting = $greetings[$lang_key];
 	

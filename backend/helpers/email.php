@@ -200,7 +200,7 @@ private static function add_attachment($info) {
 	starting up swift mailer
 ------------------------------------------------------------------------------*/
 public static function construct() {
-	$config = load::config('swift');
+	$config = new config('swift');
 	self::$from_email = $config['user'];
 	self::$from_name = $config['name'];
 }
@@ -225,7 +225,7 @@ private static function load_swiftmailer() {
 	
 	/*--- start swift ---*/
 	
-	$config = load::config('swift');
+	$config = new config('swift');
 	
 	$swift_transport = Swift_SmtpTransport::newInstance($config['host'], $config['port'], $config['ssl'])
 		->setUsername($config['user'])

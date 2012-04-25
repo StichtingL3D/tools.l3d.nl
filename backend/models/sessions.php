@@ -51,7 +51,7 @@ public function create_new($user_level=false, $user_id=false) {
 }
 
 private function generate_new_id($user_level=false) {
-	$config = load::config('sessions');
+	$config = new config('sessions');
 	
 	if ($user_level && !empty($config['secretkey_'.$user_level])) {
 		$app = $config['secretkey_'.$user_level];

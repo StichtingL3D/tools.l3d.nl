@@ -82,7 +82,7 @@ if (is_readable($file['tmp_name']) == false) {
 }
 
 // prepare
-$config = load::config('upload');
+$config = new config('upload');
 $remote_path = $config['path'].$type.'/';
 $remote_file = basename($file['name']);
 if (preg_match('/[^a-z0-9._-]/', $remote_file)) {

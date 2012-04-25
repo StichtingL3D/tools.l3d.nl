@@ -173,7 +173,7 @@ public static function construct() {
 	}
 	
 	/*--- connect to the database ---*/
-	$config = load::config('mysql');
+	$config = new config('mysql');
 	
 	try {
 		$connection = new mysqli($config['host'], $config['user'], base64_decode($config['pass']), $config['name']);

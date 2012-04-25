@@ -111,7 +111,7 @@ private static function add_meta_data(&$data) {
 }
 
 private static function add_titles(&$data) {
-	$config = load::config('meta', 'pages');
+	$config = new config('meta', 'pages');
 	
 	if (self::$title) {
 		$data['page_title'] = self::$title;

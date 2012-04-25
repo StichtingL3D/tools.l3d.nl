@@ -11,11 +11,20 @@ class mustache_tpl {
 
 private static $partials;
 
+public static function load_template($file, $ext='.html') {
+	$places = json_decode(PLACES, true);
+	$path = $places['backend'].'templates/'.$file.$ext;
+	if (file_exists($path) == false) {
+		throw new Exception('template not found, looked at templates/'.$file.$ext);
+	}
+	return file_get_contents($path);
+}
+
 /*------------------------------------------------------------------------------
 	parsing templates
 ------------------------------------------------------------------------------*/
 public static function parse($template_name, $data=false, $type='.html') {
-	$template = load::template($template_name, $type);
+	$template = self::load_template($template_name, $type);
 
 	// auto un-escape emails
 	if ($type == '.txt') {
@@ -165,7 +174,7 @@ class _Mustache extends Mustache {
 		
 		// render the template directly
 		// as the template is simple, and Mustache's context process too complex
-		$template = load::template($type);
+		$template = mustache_tpl::load_template($type);
 		$template = mustache_tpl::replace_constants($template);
 		$template = str_replace($search, $replace, $template);
 		return $template;
@@ -178,7 +187,7 @@ class _Mustache extends Mustache {
 		$template_path = $places['backend'].'templates/'.$tag_name.'.html';
 		
 		if (file_exists($template_path)) {
-			$template = load::template($tag_name);
+			$template = mustache_tpl::load_template($tag_name);
 			
 			// add common places and defines
 			$template = mustache_tpl::replace_constants($template);

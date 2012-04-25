@@ -31,7 +31,7 @@ public static function get_token($controller, $ajax=true, $html=true) {
 }
 
 private static function generate_new_token() {
-	$config = load::config('forms');
+	$config = new config('forms');
 	
 	$app = $config['token_salt'];
 	$client = $_SERVER['REMOTE_ADDR'];
