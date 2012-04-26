@@ -7,6 +7,10 @@ class cronjob_model extends model {
 
 protected $table = 'cronjobs';
 
+public function __toString() {
+	return $this->filename.'::'.$this->function;
+}
+
 /*------------------------------------------------------------------------------
 	execute the job itself
 ------------------------------------------------------------------------------*/

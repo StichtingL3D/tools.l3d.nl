@@ -4,13 +4,13 @@ if (!empty($_POST)) {
 	try {
 		// validate the form
 		$validations = array(
-			'emailaddress' => array('required', 'email'),
+			'username' => array('required'),
 			'password' => array('required'),
 		);
 		$data = forms::check('user/login', $validations);
 		
-		$users = load::model('users');
-		$accepted_user_id = $users->check_and_login($data['emailaddress'], $data['password']);
+		$citizens = new citizen();
+		$accepted_user_id = $citizens->check_and_login($data['username'], $data['password']);
 		
 		// remove a possible set failed-login cookie
 		if (isset($_COOKIE['failed_login_emailaddress'])) {
@@ -19,8 +19,8 @@ if (!empty($_POST)) {
 		}
 		
 		// redirect specific users to their dashboard
-		$user = load::model('user', $accepted_user_id);
-		$user->goto_home();
+		$citizen = new citizen($accepted_user_id);
+		$citizen->goto_home();
 		exit;
 	}
 	catch (ValidationException $e) {
