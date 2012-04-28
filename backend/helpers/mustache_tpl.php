@@ -9,39 +9,27 @@
 
 class mustache_tpl {
 
-private static $partials;
-
-public static function load_template($file, $ext='.html') {
-	$places = json_decode(PLACES, true);
-	$path = $places['backend'].'templates/'.$file.$ext;
-	if (file_exists($path) == false) {
-		throw new Exception('template not found, looked at templates/'.$file.$ext);
-	}
-	return file_get_contents($path);
-}
-
 /*------------------------------------------------------------------------------
-	parsing templates
+	parsing templates for web and mail
 ------------------------------------------------------------------------------*/
 public static function parse($template_name, $data=false, $type='.html') {
-	$template = self::load_template($template_name, $type);
-
-	// auto un-escape emails
-	if ($type == '.txt') {
-		$template = '{{%UNESCAPED}}'.NL.$template;
-	}
-	
-	// add common places and defines
-	$template = self::replace_constants($template);
+	$m_templates = new MustacheTemplates();
+	$m_templates->extension = $type;
+	$template = $m_templates[$template_name];
 	
 	// skip simple templates from going through mustache
 	if (strpos($template, '{{') === false) {
 		return $template;
 	}
 	
-	// add the mustache to all faces ;-)
+	// auto un-escape emails
+	if ($type == '.txt') {
+		$template = '{{%UNESCAPED}}'.NL.$template;
+	}
+	
+	// add the mustache to all faces ;-{)
 	$mustache = self::new_mustache();
-	$rendered_template = $mustache->render($template, $data, self::$partials);
+	$rendered_template = $mustache->render($template, $data, $m_templates);
 	
 	return $rendered_template;
 }
@@ -51,9 +39,91 @@ public static function parse_email($template_name, $data=false) {
 }
 
 /*------------------------------------------------------------------------------
-	helping the template rendering
+	escaping
+	
+	better protection against XSS using our own output helper
+	htmlspecialchars (instead of htmlentities) and also replace the slash
 ------------------------------------------------------------------------------*/
-public static function replace_constants($template) {
+public static function escape($value) {
+	// catch url arguments
+	if (strpos($value, '?') === 0) {
+		$value = trim(substr($value, 1));
+		$escaped = output::url_argument($value);
+	}
+	// and all other arguments
+	else {
+		$escaped = output::html_text($value);
+	}
+	
+	return $escaped;
+}
+
+/*------------------------------------------------------------------------------
+	starting up mustache
+------------------------------------------------------------------------------*/
+private static function new_mustache() {
+	$options = array(
+		// use our own escaping from the output helper
+		'escape' => array('mustache_tpl', 'escape'),
+		
+		// enforce our own charset over their default
+		'charset' => DEFAULT_CHARSET,
+		
+		// scream a bit louder
+		'throws_exceptions' => array(
+			MustacheException::UNKNOWN_PARTIAL => true, // not found sub-templates
+		),
+	);
+	
+	return new _Mustache(null, null, null, $options);
+}
+
+public static function construct() {
+	$places = json_decode(PLACES, true);
+	$mustache_path = $places['backend'].'includes/Mustache/Mustache.php';
+	
+	try {
+		require_once($mustache_path);
+	}
+	catch (Exception $e) {
+		throw new Exception('failed to load mustache template system');
+	}
+}
+
+}
+
+// load directly, our class extending Mustache needs it
+mustache_tpl::construct();
+
+/*------------------------------------------------------------------------------
+	template/partial loading
+------------------------------------------------------------------------------*/
+class MustacheTemplates implements ArrayAccess {
+
+public $extension = '.html';
+private $cache;
+private $base_path;
+
+public function __construct() {
+	$places = json_decode(PLACES, true);
+	$this->base_path = $places['backend'].'templates/';
+}
+
+private function load($template_file) {
+	$path = $this->base_path.$template_file;
+	if (file_exists($path) == false) {
+		throw new Exception('template not found, looked at '.$template_file);
+	}
+	
+	$template_content = file_get_contents($path);
+	
+	// add common places and defines
+	$template_content = $this->replace_constants($template_content);
+	
+	return $template_content;
+}
+
+private function replace_constants($template) {
 	$places = json_decode(PLACES, true);
 	
 	$search = array(
@@ -74,71 +144,41 @@ public static function replace_constants($template) {
 	return str_replace($search, $replace, $template);
 }
 
-/*------------------------------------------------------------------------------
-	starting up mustache
-------------------------------------------------------------------------------*/
-private static function new_mustache() {
-	$options = array(
-		// enforce our own charset over their default
-		'charset' => DEFAULT_CHARSET,
-		
-		// use smarty-alike delimiters
-		#'delimiters' => '{$ }',
-	);
-	
-	return new _Mustache(null, null, null, $options);
-}
-
-public static function construct() {
-	$places = json_decode(PLACES, true);
-	$mustache_path = $places['backend'].'includes/Mustache/Mustache.php';
-	
-	$result = require_once($mustache_path);
-	if ($result == false) {
-		throw new Exception('failed to load mustache template system');
+public function offsetExists($template_name) {
+	if (isset($this->cache[$template_name])) {
+		return true;
 	}
+	
+	$path = $this->base_path.$template_name.$this->extension;
+	if (file_exists($path)) {
+		return true;
+	}
+	
+	return false;
 }
 
-/*------------------------------------------------------------------------------
-	end of the mustache_tpl class, construct the main helper
-------------------------------------------------------------------------------*/
+public function offsetGet($template_name) {
+	if (isset($this->cache[$template_name]) == false) {
+		$this->cache[$template_name] = $this->load($template_name.$this->extension);
+	}
+	
+	return $this->cache[$template_name];
 }
-mustache_tpl::construct();
+
+public function offsetSet($template_name, $new_value) {
+	throw new Exception('can not write templates');
+}
+
+public function offsetUnset($template_name) {
+	throw new Exception('can not write templates');
+}
+
+}
 
 /*------------------------------------------------------------------------------
 	changes to the mustache default class
 ------------------------------------------------------------------------------*/
 class _Mustache extends Mustache {
-	// scream a bit louder
-	protected $_throwsExceptions = array(
-		// defaults which are fine
-		MustacheException::UNKNOWN_VARIABLE         => false,
-		MustacheException::UNCLOSED_SECTION         => true,
-		MustacheException::UNEXPECTED_CLOSE_SECTION => true,
-		MustacheException::UNKNOWN_PRAGMA           => true,
-		
-		// changed from the default
-		MustacheException::UNKNOWN_PARTIAL          => true, // not found sub-templates
-	);
-	
-	// enforce our own charset over their default
-	protected $_charset = DEFAULT_CHARSET;
-	
-	// better protection against XSS, use our own output instead:
-	// htmlspecialchars (instead of htmlentities) and also replace the slash
-	protected function _renderEscaped($tag_name, $leading, $trailing) {
-		// catch url arguments
-		if (strpos($tag_name, '?') === 0) {
-			$tag_name = trim(substr($tag_name, 1));
-			$escaped = output::url_argument($this->_getVariable($tag_name));
-		}
-		// and all other arguments
-		else {
-			$escaped = output::html_text($this->_getVariable($tag_name));
-		}
-		
-		return $leading . $escaped . $trailing;
-	}
 	
 	// adding styles and scripts via a virtual partial
 	protected function _renderPartial($tag_name, $leading, $trailing) {
@@ -174,29 +214,11 @@ class _Mustache extends Mustache {
 		
 		// render the template directly
 		// as the template is simple, and Mustache's context process too complex
-		$template = mustache_tpl::load_template($type);
-		$template = mustache_tpl::replace_constants($template);
+		$m_templates = new MustacheTemplates();
+		$template = $m_templates[$type];
 		$template = str_replace($search, $replace, $template);
 		return $template;
 	}
 	
-	// dynamicly load partials (subtemplates)
-	// so we don't have to give them as arguments to the parser
-	protected function _getPartial($tag_name) {
-		$places = json_decode(PLACES, true);
-		$template_path = $places['backend'].'templates/'.$tag_name.'.html';
-		
-		if (file_exists($template_path)) {
-			$template = mustache_tpl::load_template($tag_name);
-			
-			// add common places and defines
-			$template = mustache_tpl::replace_constants($template);
-			
-			// add to the stack
-			$this->_partials[$tag_name] = $template;
-		}
-		
-		return parent::_getPartial($tag_name);
-	}
 }
 ?>
