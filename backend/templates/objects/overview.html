@@ -1,24 +1,20 @@
 {{> header}}
 {{> style objects/generic}}
 {{> body_start}}
-	<div id="upload-container">
-		<h2>Toevoegen</h2>
-		<div>
-			<form action="{{public}}objecten/toevoegen" method="post" enctype="multipart/form-data">
-				{{& token}}
-				<input type="hidden" name="MAX_FILE_SIZE" value="{{upload_max_filesize}}">
-				<select name="type">
-					<option value="models">Object</option>
-					<option value="textures">Textuur</option>
-					<option value="sounds">Geluid</option>
-					<option value="avatars">Avatar</option>
-					<option value="seqs">Beweging</option>
-				</select>
-				<input type="file" name="file">
-				<input type="submit" value="Toevoegen">
-			</form>
-		</div>
-	</div>
+	<h2>Toevoegen</h2>
+	<form action="{{public}}objecten/toevoegen" method="post" enctype="multipart/form-data">
+		{{& upload_token}}
+		<input type="hidden" name="MAX_FILE_SIZE" value="{{upload_max_filesize}}">
+		<select name="type">
+			<option value="models">object</option>
+			<option value="textures">textuur</option>
+			<option value="sounds">geluid</option>
+			<option value="avatars">avatar</option>
+			<option value="seqs">beweging</option>
+		</select>
+		<input type="file" name="file">
+		<input type="submit" value="Toevoegen">
+	</form>
 	
 	{{# upload_failed}}
 		<h2>Mislukt</h2>
@@ -28,15 +24,42 @@
 		</p>
 	{{/ upload_failed}}
 	
-	{{# new_object}}
-		<h2>Toegevoegd aan {{world.name}}</h2>
-		{{# object.type_models}}
-			<p>Plaats het object met als objectnaam <code>{{object.filename}}</code>.</p>
-		{{/ object.type_models}}
-		{{# object.type_textures}}
-			<p>Plak de textuur op een object met <code>create texture {{object.filename}}</code>.</p>
-		{{/ object.type_textures}}
-	{{/ new_object}}
+	{{^ object_error}}
+		{{# moved_object}}
+			<h2>Bestand opgeslagen als {{object.pretty_type}}</h2>
+		{{/ moved_object}}
+		{{# new_object}}
+			<h2>Toegevoegd aan {{world.name}}</h2>
+		{{/ new_object}}
+		{{# object}}
+			<p class="note">
+				We hebben het bestand opgeslagen als {{object.pretty_type}}.
+				<a data-reveal="objectChangeForm" href="#soort-aanpassen">Niet de bedoeling?</a>
+			</p>
+			<div id="objectChangeForm" class="box-form">
+				{{> elements/box-close}}
+				<form action="{{public}}object/{{object.id}}/aanpassen" method="post">
+					{{& change_token}}
+					<label>Sla op als</label>
+					<select name="type">
+						<option value="models">object</option>
+						<option value="textures">textuur</option>
+						<option value="sounds">geluid</option>
+						<option value="avatars">avatar</option>
+						<option value="seqs">beweging</option>
+					</select>
+					<input type="submit" value="Aanpassen">
+				</form>
+			</div>
+			
+			{{# object.type_models}}
+				<p>Plaats het object met als objectnaam <code>{{object.filename}}</code>.</p>
+			{{/ object.type_models}}
+			{{# object.type_textures}}
+				<p>Plak de textuur op een object met <code>create texture {{object.filename}}</code>.</p>
+			{{/ object.type_textures}}
+		{{/ object}}
+	{{/ object_error}}
 	
 	{{# recent}}
 	<h2>Recent toegevoegd</h2>

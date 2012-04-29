@@ -12,4 +12,18 @@ $(document).ready(function(){
 		});
 	}
 	revealElements();
+	
+	// reveal custom
+	$('[data-reveal]').each(function(){
+		var elementToReveal = $(this).attr('data-reveal');
+		$('#' + elementToReveal).hide();
+		$(this).click(function(event){
+			event.preventDefault();
+			$('#' + elementToReveal).toggle();
+		});
+		$('#' + elementToReveal + ' .box-close').click(function(event){
+			event.preventDefault();
+			$('#' + elementToReveal).hide();
+		});
+	});
 });

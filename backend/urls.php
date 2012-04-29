@@ -32,6 +32,7 @@ function request2controller($request, &$controller, &$arguments) {
 	// objects
 	$rules['{^objecten$}'] = 'objects/overview';
 	$rules['{^objecten/toevoegen$}'] = 'objects/upload';
+	$rules['{^object/(?<id>[0-9]+)/aanpassen$}'] = 'objects/change';
 	
 	// gallery
 	$rules['{^tentoonstelling$}'] = 'gallery/overview';
