@@ -2,11 +2,15 @@
 /*------------------------------------------------------------------------------
 	objects overview: showing the uploaded and default objects from a multi-op
 	
-	TODO:
-	- show modifying actions based on mime
+	TODO beta:
+	- determine the object type automagicaly
+	- zip objects which are not
 	- show current uploaded objects, incl. uploaders name
 		- show my objects
 		- show recent uploads
+	
+	TODO:
+	- show modifying actions based on mime
 	- show objects from base objectpaths
 	- previews of sound files
 	- rename files when existing
