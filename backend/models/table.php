@@ -20,6 +20,9 @@ public function __construct($id=null) {
 	// sensible defaults
 	if (is_null($this->table)) {
 		$this->table = get_class($this);
+		if (substr($this->table, -1) != 's') {
+			$this->table .= 's';
+		}
 	}
 	
 	// hatch onto a table
@@ -333,10 +336,10 @@ public function insert($new_data, $replace=false) {
 	call_user_func_array(array($this, 'db_query'), $sql_args);
 	
 	// switch the model to the new object, and fetch its data from the db
-	$this->id = $insert_id;
+	$this->id = $this->db_insert_id;
 	$this->get_object();
 	
-	return $this->db_insert_id;
+	return $this->id;
 }
 
 /*------------------------------------------------------------------------------

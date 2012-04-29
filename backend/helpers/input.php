@@ -18,9 +18,9 @@
 		max|maximum_length =>
 		nonl|no_newlines
 		int|integer, string|varchar, bool|boolean, arr|array
-		email|emailaddress, slug, id, multiple_id(=>), hash, tags, vanity|vanity_url(=>),
-			url(=>), name, city, postcalcode, phonenumber, gender, coc|coc_number,
-			checkbox(=>)
+		email|emailaddress, slug, id, multiple_id(=>), hash, tags, url(=>),
+			file|filename, name, city, postal|postcalcode, phone|phonenumber,
+			gender, checkbox(=>)
 		planned: float, ..
 	
 	rules which are not specified, should manually be checked afterwards
@@ -297,14 +297,13 @@ private static function correct_newlines($data) {
 		multiple_ids (=> # exact amount)
 		hash
 		tags
-		vanity|vanity_url
 		url (=> relative|absolute)
+		file|filename
 		name
 		city
-		postcalcode
-		phonenumber
+		postal|postcalcode
+		phone|phonenumber
 		gender
-		coc|coc_number
 		checkbox (=> value if not 'on')
 		
 	planned:
@@ -499,6 +498,21 @@ private static function is_url($data, $type='absolute') {
 	}
 }
 
+/*--- filename ---*/
+private static function is_filename($data) {
+	if (preg_match('/[^a-zA-Z0-9_.()-]/', $data)) {
+		throw new ValidationException('filename');
+	}
+	
+	try {
+		self::is_minimum_length($data, 2);
+		self::is_maximum_length($data, 75);
+	}
+	catch (ValidationException $e) {
+		throw new ValidationException('filename_length', 0, $e);
+	}
+}
+
 /*--- name ---*/
 // currently the same as a city
 private static function is_name($data) {
@@ -612,6 +626,9 @@ private static function is_arr($data) {
 
 private static function is_email($data) {
 	self::is_emailaddress($data);
+}
+private static function is_file($data) {
+	self::is_filename($data);
 }
 private static function is_postal($data) {
 	self::is_postalcode($data);

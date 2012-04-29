@@ -1,24 +1,42 @@
 {{> header}}
 {{> style objects/generic}}
 {{> body_start}}
-	<!--<p id="upload-open"><a class="button" href="{{public}}objecten#toevoegen-openen">object toevoegen</a></p>-->
 	<div id="upload-container">
-		<!--<p id="upload-close"><a class="button" href="{{public}}objecten#toevoegen-sluiten">sluiten</a></p>-->
 		<h2>Toevoegen</h2>
-		<!--
-		<div id="dropbox">
-			<p>drop hier je object</p>
-		</div>
-		-->
-		<!--<div class="revealElement" title="Bladeren naar objecten">-->
 		<div>
 			<form action="{{public}}objecten/toevoegen" method="post" enctype="multipart/form-data">
+				{{& token}}
 				<input type="hidden" name="MAX_FILE_SIZE" value="{{upload_max_filesize}}">
+				<select name="type">
+					<option value="models">Object</option>
+					<option value="textures">Textuur</option>
+					<option value="sounds">Geluid</option>
+					<option value="avatars">Avatar</option>
+					<option value="seqs">Beweging</option>
+				</select>
 				<input type="file" name="file">
 				<input type="submit" value="Toevoegen">
 			</form>
 		</div>
 	</div>
+	
+	{{# upload_failed}}
+		<h2>Mislukt</h2>
+		<p>
+			Sorry, er ging iets mis bij het toevoegen van je bestand.
+			We weten ervan en zijn het aan het oplossen.
+		</p>
+	{{/ upload_failed}}
+	
+	{{# new_object}}
+		<h2>Toegevoegd aan {{world.name}}</h2>
+		{{# object.type_models}}
+			<p>Plaats het object met als objectnaam <code>{{object.filename}}</code>.</p>
+		{{/ object.type_models}}
+		{{# object.type_textures}}
+			<p>Plak de textuur op een object met <code>create texture {{object.filename}}</code>.</p>
+		{{/ object.type_textures}}
+	{{/ new_object}}
 	
 	{{# recent}}
 	<h2>Recent toegevoegd</h2>
@@ -28,12 +46,14 @@
 	<h2>Populair</h2>
 	{{/ populair}}
 	
+	{{# all}}
 	<h2>Alle objecten</h2>
 	<form action="{{public}}objecten">
 		<input type="text" name="q">
 		{{! should search in object names, types (object, texture, sound), uploaders, tags}}
 		<input type="submit" value="zoeken">
 	</form>
+	{{/ all}}
 {{> body_end}}
 {{> script objects/upload}}
 {{> footer}}
