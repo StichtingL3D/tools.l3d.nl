@@ -68,14 +68,10 @@ catch (Exception $e) {
 	connect to user
 ------------------------------------------------------------------------------*/
 
-$new_object = array(
-	'type' => $form['type'],
-	'filename' => $safe_filename,
-	'objectpath_id' => $objectpath->get_property('id'), // index_key is domain
-	'citizen_id' => $session->user_id,
-);
+$objectpath_id = $objectpath->get_property('id'); // index_key is domain
+$citizen_id = $session->user_id;
 
 $objects = new object();
-$object_id = $objects->insert($new_object);
+$object_id = $objects->add($form['type'], $safe_filename, $objectpath_id, $citizen_id);
 
 load::redirect('objecten?klaar='.$object_id);

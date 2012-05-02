@@ -19,6 +19,75 @@ private function get_pretty_type() {
 	}
 }
 
+public function select($keys=false, $where=false, $group=false, $order=false, $limit=100) {
+	if ($order == false) {
+		$order = '-upload_time';
+	}
+	
+	$all = parent::select($keys, $where, $group, $order, $limit);
+	
+	foreach ($all as &$object) {
+		if (isset($object['citizen_id'])) {
+			try {
+				$citizen = new citizen($object['citizen_id']);
+			}
+			catch (Exception $e) {
+				$citizen = false;
+			}
+			$object['citizen'] = $citizen;
+		}
+	}
+	
+	return $all;
+}
+
+public function select_recent() {
+	$recent = time()-(60*60*24*14); // two weeks
+	
+	$where = array(
+		array('upload_time', 'IS NOT', 'NULL'),
+		'AND',
+		array('upload_time', '>', $recent),
+	);
+	$order = '-upload_time';
+	
+	return $this->select(false, $where, false, $order);
+}
+
+public function select_popular() {
+	return array();
+}
+
+public function select_mine() {
+	return array();
+}
+
+public function add($type, $filename, $objectpath_id, $citizen_id=null) {
+	$allowed_types = array_flip(array('avatars','models','seqs','sounds','textures'));
+	if (isset($allowed_types[$type]) == false) {
+		$allowed_list = implode(' or ', array_flip($allowed_types));
+		throw new Exception('wrong object type ('.$type.'), allowed: '.$allowed_list);
+	}
+	
+	try {
+		$objectpath = new objectpath($objectpath_id);
+		$citizen = new objectpath($citizen_id);
+	}
+	catch (Exception $e) {
+		throw new Exception('wrong objectpath or citizen id', 0, $e);
+	}
+	
+	$new_data = array(
+		'type' => $type,
+		'filename' => $filename,
+		'upload_time' => time(),
+		'objectpath_id' => $objectpath_id,
+		'citizen_id' => $citizen_id,
+	);
+	
+	return $this->insert($new_data);
+}
+
 /*------------------------------------------------------------------------------
 	override extended model
 ------------------------------------------------------------------------------*/

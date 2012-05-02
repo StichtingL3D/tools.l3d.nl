@@ -1,5 +1,5 @@
 {{> header}}
-{{> style objects/generic}}
+{{! style objects/generic}}
 {{> body_start}}
 	<h2>Toevoegen</h2>
 	<form action="{{public}}objecten/toevoegen" method="post" enctype="multipart/form-data">
@@ -61,26 +61,48 @@
 		{{/ object}}
 	{{/ object_error}}
 	
-	{{# recent}}
-	<h2>Recent toegevoegd</h2>
-	{{/ recent}}
+	{{# objects.contains.recent}}
+		<h2>Recent toegevoegd</h2>
+		<ul class="table">
+		{{# objects.recent}}
+			{{> objects/object}}
+		{{/ objects.recent}}
+		</ul>
+	{{/ objects.contains.recent}}
 	
-	{{# populair}}
-	<h2>Populair</h2>
-	{{/ populair}}
+	{{# objects.contains.popular}}
+		<h2>Populair</h2>
+		<ul class="table">
+		{{# objects.populair}}
+			{{> objects/object}}
+		{{/ objects.populair}}
+		</ul>
+	{{/ objects.contains.popular}}
 	
-	{{# mine}}
-	<h2>Mijn objecten</h2>
-	{{/ mine}}
+	{{# objects.contains.mine}}
+		<h2>Mijn objecten</h2>
+		<ul class="table">
+		{{# objects.mine}}
+			{{> objects/object}}
+		{{/ objects.mine}}
+		</ul>
+	{{/ objects.contains.mine}}
 	
-	{{# all}}
-	<h2>Alle objecten</h2>
-	<form action="{{public}}objecten">
-		<input type="text" name="q">
-		{{! should search in object names, types (object, texture, sound), uploaders, tags}}
-		<input type="submit" value="zoeken">
-	</form>
-	{{/ all}}
+	{{# objects.contains.all}}
+		<h2>Alle objecten</h2>
+		<!--
+		<form action="{{public}}objecten">
+			<input type="text" name="q">
+			{{! should search in object names, types (object, texture, sound), uploaders, tags}}
+			<input type="submit" value="zoeken">
+		</form>
+		-->
+		<ul class="table">
+		{{# objects.all}}
+			{{> objects/object}}
+		{{/ objects.all}}
+		</ul>
+	{{/ objects.contains.all}}
 {{> body_end}}
-{{> script objects/upload}}
+{{! script objects/upload}}
 {{> footer}}

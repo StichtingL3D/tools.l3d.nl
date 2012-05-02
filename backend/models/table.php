@@ -309,7 +309,7 @@ public function decrease_counter($key, $amount=1) {
 /*------------------------------------------------------------------------------
 	insert a new row
 ------------------------------------------------------------------------------*/
-public function insert($new_data, $replace=false) {
+protected function insert($new_data, $replace=false) {
 	$sql = ($replace) ? "REPLACE" : "INSERT";
 	$sql .= " INTO `".$this->table."` SET ";
 	$sql_args = array();
