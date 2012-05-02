@@ -3,11 +3,12 @@
 				<span class="preview"><img src="{{& image}}"></span>
 			{{/ image}}
 			{{^ image}}
-				<span class="preview"><img src="{{frontend}}img/objects/placeholder.jpg"></span>
+				<span class="preview"><img src="{{frontend}}img/objects/placeholder-{{type}}.jpg"></span>
 			{{/ image}}
 			
 			<span class="title">
-				<img class="icon" src="{{frontend}}img/objects/type_{{type}}.png"> <code>{{filename}}</code>
+				<!--<img class="icon" src="{{frontend}}img/objects/type_{{type}}.png">-->
+				<code>{{filename}}</code>
 				{{# citizen_id}}
 					<span class="citizen">van {{citizen}}</span>
 				{{/ citizen_id}}
