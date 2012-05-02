@@ -54,6 +54,16 @@ code {
 	background-color: #EEE;
 }
 
+ul.table {
+	margin-left: 0;
+	padding-left: 0;
+	list-style-type: none;
+}
+ul.table li {
+	display: inline-block;
+	margin: 0 1em 1em 0;
+}
+
 /*------------------------------------------------------------------------------
 	parts of the page
 ------------------------------------------------------------------------------*/

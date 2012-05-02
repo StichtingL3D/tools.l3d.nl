@@ -1,0 +1,27 @@
+.object {
+	width: 160px;
+	height: 160px;
+	vertical-align: top;
+}
+.object.object_avatars {}
+.object.object_models {}
+.object.object_seqs {}
+.object.object_sounds {}
+.object.object_textures {}
+
+.object .preview img {
+	display: inline-block;
+	min-width: 160px;
+	min-height: 120px;
+	max-width: 160px;
+	max-height: 120px;
+	border: 1px solid #CCC;
+}
+.object .title {
+	display: inline-block;
+	margin-top: -0.25em;
+	font-size: smaller;
+	vertical-align: top;
+}
+.object .title code {
+}

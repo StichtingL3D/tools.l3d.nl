@@ -26,7 +26,21 @@ public function select($keys=false, $where=false, $group=false, $order=false, $l
 	
 	$all = parent::select($keys, $where, $group, $order, $limit);
 	
+	// post processing, add images and citizen names
 	foreach ($all as &$object) {
+		if (isset($object['objectpath_id'])) {
+			try {
+				$objectpath = new objectpath($object['objectpath_id']);
+			}
+			catch (Exception $e) {
+				$objectpath = false;
+			}
+			
+			if ($objectpath && $object['type'] == 'textures' && strpos($object['filename'], '.bmp') === false) {
+				$object['image'] = 'http://'.$objectpath->domain.'.props.l3d.nl/textures/'.$object['filename'];
+			}
+		}
+		
 		if (isset($object['citizen_id'])) {
 			try {
 				$citizen = new citizen($object['citizen_id']);
