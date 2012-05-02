@@ -51,15 +51,23 @@ public function select_recent() {
 	);
 	$order = '-upload_time';
 	
-	return $this->select(false, $where, false, $order);
+	return $this->select(false, $where);
 }
 
 public function select_popular() {
 	return array();
 }
 
-public function select_mine() {
-	return array();
+public function select_mine($citizen_id) {
+	$recent = time()-(60*60*24*14); // two weeks
+	
+	$where = array(
+		array('citizen_id', 'IS NOT', 'NULL'),
+		'AND',
+		array('citizen_id' => $citizen_id),
+	);
+	
+	return $this->select(false, $where);
 }
 
 public function add($type, $filename, $objectpath_id, $citizen_id=null) {
