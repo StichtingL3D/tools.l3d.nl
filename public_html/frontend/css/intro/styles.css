@@ -1,0 +1,171 @@
+/*
+	L3D red: #AA122B
+*/
+
+body {
+	margin: 0 auto;
+	width: 980px;
+	font-family: Verdana;
+	font-size: smaller;
+}
+
+h3, h4, h5, h6 {
+	color: #AA122B;
+}
+.term {
+	color: #AA122B;
+}
+.call {
+	/*color: #AA122B;*/
+	font-weight: bold;
+}
+.more a, .less {
+	background-color: #EEE;
+}
+
+#header {
+	margin-top: 1em;
+	height: 100%;
+	color: white;
+	background-color: #AA122B;
+	overflow: hidden;
+}
+h1 {
+	float: left;
+	margin: 0;
+	display: inline-block;
+	padding: 0.5em;
+	font-size: xx-large;
+	letter-spacing: 3px;
+}
+h1 a {
+	text-decoration: none;
+	color: inherit;
+}
+h2 {
+	margin: 0.5em auto;
+	width: 400px;
+	text-align: center;
+}
+
+#intro {
+	margin: 1.5em auto;
+	width: 400px;
+	text-align: center;
+	font-size: medium;
+}
+
+#left, #right {
+	float: right;
+	width: 222px;
+	opacity: 0.3;
+}
+#left:hover, #right:hover {
+	opacity: 0.6;
+}
+#left {
+	margin-left: -149px;
+	padding-right: 20px;
+}
+#right {
+	margin-right: -149px;
+	padding-left: 20px;
+}
+#left h3 {
+	text-align: right;
+}
+#left h3 a, #right h3 a {
+	text-decoration: none;
+}
+#left h3 span, #right h3 span {
+	color: #AA122B;
+}
+#left:hover a, #left a:active, #right:hover a, #right a:active {
+	color: #AA122B;
+}
+
+#contact {
+	float: right;
+	width: 250px; /* max is 315px */
+	margin-left: 10px;
+	margin-right: 76px;
+	padding: 0 10px;
+}
+
+#projects {
+	float: right;
+	height: 100%;
+	border-left: 1px solid #AA122B;
+	overflow: hidden;
+}
+#projects div {
+	float: right;
+	margin-left: -1px;
+	padding: 0 20px 1em;
+	width: 222px;
+	border-left: 1px solid #AA122B;
+	border-right: 1px solid #AA122B;
+}
+#projects img {
+	width: 220px;
+	border: 1px solid #AAA;
+}
+
+#development {
+	clear: both;
+	margin-left: 0;
+	padding: 0 1em;
+	height: 100%;
+	list-style-type: none;
+	text-align: center;
+	border-top: 1px solid #AA122B;
+	overflow: hidden;
+}
+#development li {
+	display: inline-block;
+	margin: 0 1em;
+	padding: 3px;
+	width: 200px;
+	text-align: center;
+	border: 1px solid #AAA;
+}
+#development h4 {
+	margin-top: 0;
+	margin-bottom: 0.75em;
+	padding: 0.25em 0 0.5em;
+	color: #555;
+	border-bottom: 1px solid #AAA;
+}
+#development img {
+	height: 25px;
+	border: none;
+}
+#development li p {
+	margin-top: 0.25em;
+	margin-bottom: 0.25em;
+}
+
+#footer {
+	clear: both;
+	color: #AAA;
+	border-top: 1px solid #AA122B;
+}
+#menu {
+	float: right;
+	margin-left: 0;
+	padding-left: 0;
+	list-style-type: none;
+}
+#menu li {
+	float: left;
+	margin-left: 1em;
+}
+#menu a {
+	padding: 0.25em;
+	text-decoration: none;
+	color: #AA122B;
+	font-weight: bold;
+}
+#menu a:hover, #menu a:active {
+	text-decoration: underline;
+}

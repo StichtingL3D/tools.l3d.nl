@@ -17,7 +17,7 @@ require_once($places['backend'].'load.php');
 /*------------------------------------------------------------------------------
 	dating for requests, finding an accompanying controller
 ------------------------------------------------------------------------------*/
-$default_controller = 'objects/overview';
+$default_controller = 'intro';
 $request = '';
 $controller = '';
 $arguments = array();

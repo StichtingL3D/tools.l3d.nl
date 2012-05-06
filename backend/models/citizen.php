@@ -29,9 +29,9 @@ public function goto_home($next=false) {
 	
 	// else the dashboard depends on user level
 	else {
-		#if ($this->is_webmaster()) {
-		#	$new_page = 'beheer';
-		#}
+		if ($this->is_citizen_or_higher()) {
+			$new_page = 'objecten';
+		}
 	}
 	
 	// redirect

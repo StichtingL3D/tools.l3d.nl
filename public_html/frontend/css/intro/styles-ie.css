@@ -1,0 +1,12 @@
+/*
+	Styles especially for Internet Explorer
+*/
+
+#left, #right {
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=30)"; /* IE8 */
+	filter: alpha(opacity=30); /* IE5-7 */
+}
+#left:hover, #right:hover {
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=70)"; /* IE8 */
+	filter: alpha(opacity=70); /* IE5-7 */
+}

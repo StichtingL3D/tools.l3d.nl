@@ -11,6 +11,7 @@ function request2controller($request, &$controller, &$arguments) {
 	if (ENVIRONMENT == 'development') {
 		
 		// dev
+		$rules['{^dev$}'] = 'dev/test';
 		$rules['{^dev/users$}'] = 'dev/users';
 		
 	}
@@ -28,6 +29,7 @@ function request2controller($request, &$controller, &$arguments) {
 	
 	// basics
 	$rules['{^home$}'] = 'home';
+	$rules['{^intro$}'] = 'intro';
 	
 	// objects
 	$rules['{^objecten$}'] = 'objects/overview';
