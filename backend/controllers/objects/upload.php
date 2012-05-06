@@ -94,8 +94,26 @@ if ($file_type == false) {
 
 // do the zipping for the user
 $unzipped_extensions = array_flip(array('rwx', 'cob', 'scn', 'x', 'bmp'));
-if (isset($object_extensions[$file_ext])) {
-	#TODO: zip the file
+if (isset($unzipped_extensions[$file_ext])) {
+	// rename (copy) as the real filename so we can create a zip from it
+	$tmp_zipping_path = '/tmp/l3dtools-autozip';
+	if (file_exists($tmp_zipping_path) == false) {
+		mkdir($tmp_zipping_path);
+	}
+	copy($file_path, $tmp_zipping_path.'/'.$file_name);
+	
+	// create new zipped file
+	$zipped_file_name = str_replace('.'.$file_ext, '.zip', $file_name);
+	$zip_command = 'zip '.escapeshellarg($tmp_zipping_path.'/'.$zipped_file_name).' '.escapeshellarg($tmp_zipping_path.'/'.$file_name).' --junk-paths';
+	`$zip_command`;
+	
+	// clean up half the mess we created
+	unlink($tmp_zipping_path.'/'.$file_name);
+	
+	#TODO: find a way to rename files in a zip so we don't create a mess in this directory
+	
+	$file_path = $tmp_zipping_path.'/'.$zipped_file_name;
+	$file_name = $zipped_file_name;
 }
 
 $file_name = preg_replace('/[^a-z0-9._-]+/', '', strtolower($file_name));
