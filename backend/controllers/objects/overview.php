@@ -29,6 +29,18 @@ $data = array(
 );
 
 /*------------------------------------------------------------------------------
+	check building rights
+------------------------------------------------------------------------------*/
+$current_citizen_id = $session->user_id;
+
+$bbcn_world = new world(24);
+$bbcn_playground_world = new world(25);
+
+if ($bbcn_world->build_rights_for($current_citizen_id) == false && $bbcn_playground_world->build_rights_for($current_citizen_id) == false) {
+	die('Objecten toevoegen niet toegestaan');
+}
+
+/*------------------------------------------------------------------------------
 	notifiers
 ------------------------------------------------------------------------------*/
 if (isset($_GET['fout'])) {

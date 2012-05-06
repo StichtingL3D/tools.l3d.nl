@@ -353,6 +353,7 @@ public function __destruct() {
 			$this->update_object();
 		}
 		catch (Exception $e) {
+			#TODO: find something better for this -- if error::mail throws an exception we get an endless loop
 			// email the webmasters as we're not allowed to throw exceptions during destruct
 			try {
 				error::mail($e);
@@ -366,7 +367,7 @@ public function __destruct() {
 
 protected function update_object() {
 	if (is_null($this->id)) {
-		throw new Exception('can not use update_object() on plural objects');
+		return;
 	}
 	if (!is_array($this->table_changes) && count($this->table_changes) < 1) {
 		return;
@@ -558,6 +559,10 @@ protected function db_config() {
 	return new config('mysql');
 }
 
+protected function db_switch($db_name) {
+	$this->connection->select_db($db_name);
+}
+
 private function db_connect() {
 	// security: turn off magic quotes for files and databases, deprecated as of PHP 6
 	if (version_compare(PHP_VERSION, '5.3', '<')) {
@@ -604,6 +609,5 @@ private function db_connect() {
 	$this->db_query_raw("SET NAMES utf8;");
 	$this->db_query_raw("SET CHARACTER SET utf8;");
 }
-
 
 }

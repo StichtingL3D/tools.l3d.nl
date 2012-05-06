@@ -192,18 +192,6 @@ private static function add_user_info() {
 			$user = load::model('user', $session->user_id);
 			$user_email = $user->emailaddress;
 			$info .= ' '.$user_email.'.'.NL;
-			
-			// a photographer
-			$photographers = load::model('photographers');
-			$pg_info = $photographers->find_by_userid($session->user_id, $extended=true);
-			if ($pg_info) {
-				$info .= 'En *fotograaf* (#'.$pg_info['id'].')';
-				$info .= ' *'.$pg_info['first_name'].' '.$pg_info['last_name'].'*';
-				if ($pg_info['phone']) {
-					$info .= ', '.$pg_info['phone'];
-				}
-				$info .= '.'.NL;
-			}
 		}
 		catch (Exception $e) {
 			// skip silently

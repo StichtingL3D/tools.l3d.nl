@@ -147,13 +147,9 @@ private static function notify_on_error($controller, $validation_rules, $errors)
 		try {
 			$user = load::model('user', $user_id='session');
 			$user_info = array('id'=>$user->id, 'emailaddress'=>$user->emailaddress);
-			
-			$photographers = load::model('photographers');
-			$pg_info = $photographers->find_by_userid($user->id, $extended=true);
 		}
 		catch (Exception $e) {
 			$user_info = false;
-			$pg_info = false;
 		}
 		
 		$cron_args = array(
@@ -163,7 +159,6 @@ private static function notify_on_error($controller, $validation_rules, $errors)
 			'errors'	=> $errors,
 			'rules'		=> $validation_rules,
 			'user'		=> $user_info,
-			'pg'			=> $pg_info,
 		);
 		cron::execute('forms::notify_on_error', $cron_args);
 	}

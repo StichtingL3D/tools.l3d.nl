@@ -219,21 +219,4 @@ public function get_object() {
 	return $this->table_data;
 }
 
-public function update_property($key, $new_value) {
-	if ($key == 'LastLogin' || $key == 'LastAddress' || $key == 'TotalTime') {
-		throw new Exception('can not update "'.$key.'", updates are done automaticly');
-	}
-	elseif ($key == 'Privacy' || $key == 'Trial') {
-		throw new Exception('can not update "'.$key.'", not used');
-	}
-	elseif ($key == 'Immigration') {
-		throw new Exception('can not update "'.$key.'", one-time field');
-	}
-	elseif ($key == 'Password' || $key == 'PrivPass' || $key == 'Expiration') {
-		throw new Exception('can not update "'.$key.'" directly, use special method');
-	}
-	
-	return parent::update_property($key, $new_value);
-}
-
 }
