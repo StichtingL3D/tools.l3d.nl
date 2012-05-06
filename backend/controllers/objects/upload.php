@@ -33,23 +33,72 @@ function show_error($error_type, $exception=false, $send_mail=true) {
 	check the uploaded file
 ------------------------------------------------------------------------------*/
 
-$rules = array('type'=>array('string'));
-$form = forms::check('objects/upload', $rules);
-$allowed_types = array_flip(array('avatars','models','seqs','sounds','textures'));
-if (isset($allowed_types[$form['type']]) == false) {
-	show_error('type', false, false);
-	exit;
+$file_type = false;
+$file_path = false;
+$file_name = false;
+$file_ext = false;
+
+if (!empty($_POST['type'])) {
+	$rules = array('type'=>array('string'));
+	$form = forms::check('objects/upload', $rules);
+	$allowed_types = array_flip(array('avatars','models','seqs','sounds','textures'));
+	if (isset($allowed_types[$form['type']]) == false) {
+		show_error('type', false, false);
+		exit;
+	}
+	
+	$file_type = $form['type'];
 }
 
 try {
 	$fileinfo = upload::check($mime=false, $min='1', $max='1048576'); // 1mb
+	$file_path = $fileinfo['path'];
+	$file_name = $fileinfo['name'];
 }
 catch (Exception $e) {
 	show_error('upload', $e);
 	exit;
 }
 
-$safe_filename = preg_replace('/[^a-z0-9._-]+/', '', strtolower($fileinfo['name']));
+$file_ext = substr($file_name, strrpos($file_name, '.')+1);
+
+// automagically determine the objectpath type
+if ($file_type == false) {
+	#TODO: unzip zipped files
+	
+	$extension_to_type = array(
+		'zip'  => 'models',
+		'rwx'  => 'models',
+		'cob'  => 'models',
+		'scn'  => 'models',
+		'x'    => 'models',
+		'mp3'  => 'sounds',
+		'wav'  => 'sounds',
+		'midi' => 'sounds',
+		'jpg'  => 'textures',
+		'jpeg' => 'textures',
+		'png'  => 'textures',
+		'gif'  => 'textures',
+		'tiff' => 'textures',
+		'bmp'  => 'textures',
+	);
+	
+	if (isset($extension_to_type[$file_ext])) {
+		$file_type = $extension_to_type[$file_ext];
+	}
+	else {
+		// default fallback
+		$file_type = 'models';
+	}
+}
+
+// do the zipping for the user
+$unzipped_extensions = array_flip(array('rwx', 'cob', 'scn', 'x', 'bmp'));
+if (isset($object_extensions[$file_ext])) {
+	#TODO: zip the file
+}
+
+$file_name = preg_replace('/[^a-z0-9._-]+/', '', strtolower($file_name));
 
 /*------------------------------------------------------------------------------
 	move to objectpath
@@ -57,7 +106,7 @@ $safe_filename = preg_replace('/[^a-z0-9._-]+/', '', strtolower($fileinfo['name'
 
 try {
 	$objectpath = new objectpath('bbcn');
-	$objectpath->add_file($form['type'], $fileinfo['path'], $safe_filename);
+	$objectpath->add_file($file_type, $file_path, $file_name);
 }
 catch (Exception $e) {
 	show_error('ftp', $e);
@@ -72,6 +121,6 @@ $objectpath_id = $objectpath->get_property('id'); // index_key is domain
 $citizen_id = $session->user_id;
 
 $objects = new object();
-$object_id = $objects->add($form['type'], $safe_filename, $objectpath_id, $citizen_id);
+$object_id = $objects->add($file_type, $file_name, $objectpath_id, $citizen_id);
 
 load::redirect('objecten?klaar='.$object_id);

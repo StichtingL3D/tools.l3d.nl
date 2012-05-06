@@ -6,13 +6,6 @@
 	<form action="{{public}}objecten/toevoegen" method="post" enctype="multipart/form-data">
 		{{& upload_token}}
 		<input type="hidden" name="MAX_FILE_SIZE" value="{{upload_max_filesize}}">
-		<select name="type">
-			<option value="models">object</option>
-			<option value="textures">textuur</option>
-			<option value="sounds">geluid</option>
-			<option value="avatars">avatar</option>
-			<option value="seqs">beweging</option>
-		</select>
 		<input type="file" name="file">
 		<input type="submit" value="Toevoegen">
 	</form>
