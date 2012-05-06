@@ -32,7 +32,7 @@ else {
 	$public = realpath(substr($private, 0, strpos($private, '-backend')));
 	
 	$release = basename($public);
-	$release = ($release == 'DEFAULT') ? 'production' : $release;
+	$release = ($release == 'public_html') ? 'production' : $release;
 	define('ENVIRONMENT', $release);
 }
 
