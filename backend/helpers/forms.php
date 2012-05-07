@@ -114,7 +114,7 @@ public static function check($controller, $input_validation=false) {
 		
 		// let the controller handle these exceptions
 		if ($e->getMessage() == 'too old') {
-			throw new FormException('re-submit', 0, $e);
+			throw new FormException('re-submit', 0);
 		}
 			
 		// other exceptions are bad, really really bad

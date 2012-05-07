@@ -89,8 +89,8 @@ private static function add_server_info($exception=false, $type=false) {
 			$info .= NL;
 			$info .= 'Exception trace:'.NL;
 			$info .= $exception->getTraceAsString().NL;
-			$info .= NL;
-			$info .= 'Previous exception:'.NL;
+			#$info .= NL;
+			#$info .= 'Previous exception:'.NL;
 			#$info .= $exception->getPrevious().NL;
 		}
 		elseif (is_string($exception)) {
@@ -262,9 +262,9 @@ public static function mail_cron_job($job_info, $e) {
 		.NL
 		.'Exception trace:'.NL
 		.$e->getTraceAsString().NL
-		.NL
-		.'Previous exception:'.NL
-		.$e->getPrevious().NL
+		#.NL
+		#.'Previous exception:'.NL
+		#.$e->getPrevious().NL
 		.NL
 		.'-----'.NL
 		.'eom';

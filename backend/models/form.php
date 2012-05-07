@@ -43,7 +43,7 @@ public function check() {
 			// session id not in our session table anymore, strange..
 			// old session: since then loggedout, deleted, etc.
 			// no session: this user doesn't have a session while the form did, hack
-			throw new Exception('no session', 0, $e);
+			throw new Exception('no session', 0);
 		}
 	}
 	

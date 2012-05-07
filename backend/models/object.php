@@ -96,7 +96,7 @@ public function add($type, $filename, $objectpath_id, $citizen_id=null) {
 		$citizen = new citizen($citizen_id);
 	}
 	catch (Exception $e) {
-		throw new Exception('wrong objectpath or citizen id', 0, $e);
+		throw new Exception('wrong objectpath or citizen id', 0);
 	}
 	
 	$new_data = array(

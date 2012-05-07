@@ -409,7 +409,7 @@ private static function is_emailaddress($data) {
 	}
 	catch (Exception $e) {
 		if ($e->getMessage() == 'invalid') {
-			throw new ValidationException('emailaddress', 0, $e);
+			throw new ValidationException('emailaddress', 0);
 		}
 		
 		// on other errors, continue with our own test
@@ -420,7 +420,7 @@ private static function is_emailaddress($data) {
 		self::is_minimum_length($data, strlen('a@b.c'));
 	}
 	catch (ValidationException $e) {
-		throw new ValidationException('emailaddress', 0, $e);
+		throw new ValidationException('emailaddress', 0);
 	}
 	
 	$email_at_exists = strpos($data, '@');
@@ -448,7 +448,7 @@ private static function is_id($data) {
 		self::is_maximum_length($data, 11);
 	}
 	catch (ValidationException $e) {
-		throw new ValidationException('id_length', 0, $e);
+		throw new ValidationException('id_length', 0);
 	}
 }
 
@@ -468,7 +468,7 @@ private static function is_multiple_ids($data, $amount=false) {
 		}
 	}
 	catch (ValidationException $e) {
-		throw new ValidationException('multiple_ids', 0, $e);
+		throw new ValidationException('multiple_ids', 0);
 	}
 	
 	if ($amount && count($ids_array) != $amount) {
@@ -511,7 +511,7 @@ private static function is_filename($data) {
 		self::is_maximum_length($data, 75);
 	}
 	catch (ValidationException $e) {
-		throw new ValidationException('filename_length', 0, $e);
+		throw new ValidationException('filename_length', 0);
 	}
 }
 
@@ -527,7 +527,7 @@ private static function is_name($data) {
 		self::is_maximum_length($data, 75);
 	}
 	catch (ValidationException $e) {
-		throw new ValidationException('name_length', 0, $e);
+		throw new ValidationException('name_length', 0);
 	}
 }
 
@@ -543,7 +543,7 @@ private static function is_city($data) {
 		self::is_maximum_length($data, 75);
 	}
 	catch (ValidationException $e) {
-		throw new ValidationException('city_length', 0, $e);
+		throw new ValidationException('city_length', 0);
 	}
 }
 
@@ -578,7 +578,7 @@ private static function is_phonenumber($data) {
 		self::is_maximum_length($stripped_phonenumber, 25);
 	}
 	catch (ValidationException $e) {
-		throw new ValidationException('phonenumber_length', 0, $e);
+		throw new ValidationException('phonenumber_length', 0);
 	}
 }
 

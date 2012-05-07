@@ -25,7 +25,7 @@ public static function check_emailaddress($emailaddress) {
 		$message = Swift_Message::newInstance('test');
 	}
 	catch (Exception $e) {
-		throw new Exception('test-error', 0, $e);
+		throw new Exception('test-error', 0);
 	}
 	
 	// actual test
@@ -33,7 +33,7 @@ public static function check_emailaddress($emailaddress) {
 		$message->setTo($emailaddress);
 	}
 	catch (Swift_RfcComplianceException $e) {
-		throw new Exception('invalid', 0, $e);
+		throw new Exception('invalid', 0);
 	}
 	
 	unset($message);
@@ -101,7 +101,7 @@ public static function send($to, $subject, $body, $attach_info=false, $other_rec
 			}
 		}
 		catch (Swift_RfcComplianceException $e) {
-			throw new Exception('non valid emailaddress', 0, $e);
+			throw new Exception('non valid emailaddress', 0);
 		}
 		
 		// add the email body
@@ -116,7 +116,7 @@ public static function send($to, $subject, $body, $attach_info=false, $other_rec
 		return self::$swift->send($message);
 	}
 	catch (Exception $e) {
-		throw new Exception('error sending mail: '.$e->getMessage(), 0, $e);
+		throw new Exception('error sending mail: '.$e->getMessage(), 0);
 	}
 }
 
