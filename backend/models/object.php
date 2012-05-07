@@ -93,7 +93,7 @@ public function add($type, $filename, $objectpath_id, $citizen_id=null) {
 	
 	try {
 		$objectpath = new objectpath($objectpath_id);
-		$citizen = new objectpath($citizen_id);
+		$citizen = new citizen($citizen_id);
 	}
 	catch (Exception $e) {
 		throw new Exception('wrong objectpath or citizen id', 0, $e);

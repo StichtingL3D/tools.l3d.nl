@@ -111,6 +111,7 @@ if (isset($unzipped_extensions[$file_ext])) {
 	unlink($tmp_zipping_path.'/'.$file_name);
 	
 	#TODO: find a way to rename files in a zip so we don't create a mess in this directory
+	#echo -e "@ tport_small.rwx\n@=tryout.rwx" | zipnote -w tport_small.zip
 	
 	$file_path = $tmp_zipping_path.'/'.$zipped_file_name;
 	$file_name = $zipped_file_name;
@@ -138,7 +139,13 @@ catch (Exception $e) {
 $objectpath_id = $objectpath->get_property('id'); // index_key is domain
 $citizen_id = $session->user_id;
 
-$objects = new object();
-$object_id = $objects->add($file_type, $file_name, $objectpath_id, $citizen_id);
+try {
+	$objects = new object();
+	$object_id = $objects->add($file_type, $file_name, $objectpath_id, $citizen_id);
+}
+catch (Exception $e) {
+	show_error('object', $e);
+	exit;
+}
 
 load::redirect('objecten?klaar='.$object_id);

@@ -1,6 +1,7 @@
 {{> header}}
 {{> style user/login}}
 {{> body_start}}
+	<p>Log hier in met je L3Daw bewonernaam en wachtwoord. Je kunt ook inloggen met je e-mailadres of bewonernummer.</p>
 	<form id="login" action="{{public}}inloggen?next={{? next}}" method="post">
 		{{& token}}
 		<div class="inline">
@@ -20,7 +21,7 @@
 			<input type="submit" value="Inloggen">
 		</div>
 	</form>
-	<p>Je kunt ook inloggen met je e-mailadres of bewonernummer.</p>
+	<!--<p>Je kunt ook inloggen met je e-mailadres of bewonernummer.</p>-->
 	<!--
 	<p><a href="{{public}}wachtwoord/herstellen">Wachtwoord vergeten</a>?</p>
 	-->
