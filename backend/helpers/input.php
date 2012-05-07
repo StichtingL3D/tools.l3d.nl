@@ -195,7 +195,9 @@ private static function validate_single($data, $key=null, $rules) {
 		// test this rule --- throws exception on errors
 		#TODO: may change the data in simple ways?
 		#$data = 
-		call_user_func($validating_function, $data, $argument);
+		#TODO: older php versions need an array callback for call_user_func
+		$validating_function_array_callback = array('self', 'is_'.$rule);
+		call_user_func($validating_function_array_callback, $data, $argument);
 	}
 	
 	// strong type hinting
