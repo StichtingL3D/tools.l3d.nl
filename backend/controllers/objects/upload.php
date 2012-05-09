@@ -52,8 +52,10 @@ if (!empty($_POST['type'])) {
 
 try {
 	$fileinfo = upload::check($mime=false, $min='1', $max='1048576'); // 1mb
-	$file_path = $fileinfo['path'];
-	$file_name = $fileinfo['name'];
+	$file_name = preg_replace('/[^a-z0-9._-]+/', '', strtolower($fileinfo['name']));
+	
+	$file_path = upload::move($from=$fileinfo['path'], $to_data_path=false, $to_name=$file_name);
+	$file_path = dirname($file_path);
 }
 catch (Exception $e) {
 	show_error('upload', $e);
@@ -65,13 +67,18 @@ $file_ext = substr($file_name, strrpos($file_name, '.')+1);
 // automagically determine the objectpath type
 if ($file_type == false) {
 	#TODO: unzip zipped files
+	# to correctly determine type and correctly add to db
+	# to be able to create thumbnails of zipped objects and masks
 	
 	$extension_to_type = array(
+		'dat'  => 'avatars',
+		'awg'  => 'groups',
 		'zip'  => 'models',
 		'rwx'  => 'models',
 		'cob'  => 'models',
 		'scn'  => 'models',
 		'x'    => 'models',
+		'seq'  => 'seqs',
 		'mp3'  => 'sounds',
 		'wav'  => 'sounds',
 		'midi' => 'sounds',
@@ -93,31 +100,36 @@ if ($file_type == false) {
 }
 
 // do the zipping for the user
-$unzipped_extensions = array_flip(array('rwx', 'cob', 'scn', 'x', 'bmp'));
+$unzipped_extensions = array_flip(array('dat', 'awg', 'rwx', 'cob', 'scn', 'x', 'seq', 'wav', 'midi', 'bmp'));
 if (isset($unzipped_extensions[$file_ext])) {
-	// rename (copy) as the real filename so we can create a zip from it
-	$tmp_zipping_path = '/tmp/l3dtools-autozip';
-	if (file_exists($tmp_zipping_path) == false) {
-		mkdir($tmp_zipping_path);
+	
+	$file_name_original = $file_name;
+	$file_path_original = $file_path;
+	$file_name_zipped = str_replace('.'.$file_ext, '.zip', $file_name_original);
+	$full_path_original = $file_path_original.'/'.$file_name_original;
+	$full_path_zipped = $file_path_original.'/'.$file_name_zipped;
+	
+	// create the zip
+	try {
+		$zip_file = new ZipArchive;
+		$zip_file->open($full_path_zipped, ZipArchive::CREATE);
+		$zip_file->addFile($full_path_original, $file_name_original);
+		$zip_file->close();
 	}
-	copy($file_path, $tmp_zipping_path.'/'.$file_name);
+	catch (Exception $e) {
+		show_error('zip', $e);
+		exit;
+	}
 	
-	// create new zipped file
-	$zipped_file_name = str_replace('.'.$file_ext, '.zip', $file_name);
-	$zip_command = 'zip '.escapeshellarg($tmp_zipping_path.'/'.$zipped_file_name).' '.escapeshellarg($tmp_zipping_path.'/'.$file_name).' --junk-paths';
-	`$zip_command`;
+	// remove the original
+	// remove the zipped file as well, but after ftp transfer
+	unlink($full_path_original);
+	$remove_zip_after_ftp = $full_path_zipped;
 	
-	// clean up half the mess we created
-	unlink($tmp_zipping_path.'/'.$file_name);
-	
-	#TODO: find a way to rename files in a zip so we don't create a mess in this directory
-	#echo -e "@ tport_small.rwx\n@=tryout.rwx" | zipnote -w tport_small.zip
-	
-	$file_path = $tmp_zipping_path.'/'.$zipped_file_name;
-	$file_name = $zipped_file_name;
+	// welcome to the new situation
+	$file_path = $full_path_zipped;
+	$file_name = $file_name_original;
 }
-
-$file_name = preg_replace('/[^a-z0-9._-]+/', '', strtolower($file_name));
 
 /*------------------------------------------------------------------------------
 	move to objectpath
@@ -130,6 +142,10 @@ try {
 catch (Exception $e) {
 	show_error('ftp', $e);
 	exit;
+}
+
+if (isset($remove_zip_after_ftp)) {
+	unlink($remove_zip_after_ftp);
 }
 
 /*------------------------------------------------------------------------------

@@ -86,6 +86,13 @@ public function __construct($else_action=false, $id=false, $type=false) {
 	if ($else_action == 'login') {
 		$this->check_password_change();
 	}
+	
+	// 7. show errors for webmasters
+	$user = load::model('user', $this->user_id);
+	if ($user->level === 'webmaster') {
+		ini_set('display_errors', 1);
+		error_reporting(-1);
+	}
 }
 
 /*------------------------------------------------------------------------------

@@ -5,6 +5,8 @@ php_flag display_startup_errors On
 php_flag display_errors On
 php_flag register_globals Off
 php_flag magic_quotes_gpc Off
+php_value post_max_size 10M
+php_value upload_max_filesize 5M
 Options -Indexes
 
 # ------------------------------------------------------------------------------

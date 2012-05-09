@@ -9,7 +9,7 @@ public function __toString() {
 	return $this->Name;
 }
 
-public function build_rights_for($citizen_id) {
+public function get_build_rights() {
 	$build_rights_attribute = 17;
 	
 	$sql = "SELECT `Value`
@@ -22,7 +22,11 @@ public function build_rights_for($citizen_id) {
 			`aws_world`.`Name` = '%s'
 		;";
 	
-	$build_rights = $this->db_select('field', $sql, $this->Name);
+	return $this->db_select('field', $sql, $this->Name);
+}
+
+public function build_rights_for($citizen_id) {
+	$build_rights = $this->get_build_rights();
 	
 	return $this->citizen_id_in_rights_string($citizen_id, $build_rights);
 }
@@ -52,7 +56,7 @@ private function citizen_id_in_rights_string($citizen_id, $rights_string) {
 	// listed
 	if (strpos($padded_rights_string, '~')) {
 		$complete_rights_string = $this->convert_rights_string($padded_rights_string);
-		if (strpos($padded_rights_string, $padded_citizen_id) !== false) {
+		if (strpos($complete_rights_string, $padded_citizen_id) !== false) {
 			return true;
 		}
 	}

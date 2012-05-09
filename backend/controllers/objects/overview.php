@@ -3,12 +3,7 @@
 	objects overview: showing the uploaded and default objects from a multi-op
 	
 	TODO beta:
-	- show current uploaded objects, incl. uploaders name
-		- show my objects
-		- show recent uploads
-	- determine the object type automagicaly
 	- zip objects which are not
-	- check building rights
 	
 	TODO:
 	- show modifying actions based on mime
@@ -16,6 +11,10 @@
 	- previews of sound files
 	- rename files when existing
 	- tip to use actions
+	- read zip files
+		to correctly determine type
+		to correctly add to db
+		to upload unzipped as well and be able to link to that
 	- more ... see trello
 ------------------------------------------------------------------------------*/
 

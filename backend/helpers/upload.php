@@ -133,12 +133,17 @@ private static function check_size($minimal, $maximal) {
 public static function move($from, $to_data_path=false, $to_name=false) {
 	// prepare
 	if ($to_data_path == false) {
-		$to_data_path = 'upload/files/'.CONTROLLER;
+		$to_data_path = CONTROLLER;
 	}
+	$to_data_path = 'upload/files/'.preg_replace('/[^a-z]+/', '_', $to_data_path);
 	
 	$places = json_decode(PLACES, true);
 	$to = $places['data'].$to_data_path;
-	$to_full = $to.$to_name;
+	$to_full = $to.'/'.$to_name;
+	
+	if (file_exists($to) == false) {
+		mkdir($to);
+	}
 	
 	// check
 	if (is_readable($from) == false) {
@@ -165,6 +170,8 @@ public static function move($from, $to_data_path=false, $to_name=false) {
 	if ($result == false) {
 		throw new UploadException('move - failed, check safe_mode/open_basedir');
 	}
+	
+	return $to_full;
 }
 
 /*------------------------------------------------------------------------------
@@ -201,7 +208,7 @@ class UploadException extends Exception {
 
 public $errors = false;
 
-public function __construct($message=null, $code=0, Exception $previous=null) {
+public function __construct($message=null, $code=0) {
 	// default upload errors
 	if (is_numeric($message)) {
 		$code = $message;
@@ -238,7 +245,7 @@ public function __construct($message=null, $code=0, Exception $previous=null) {
 		}
 	}
 	
-	parent::__construct($message, $code, $previous);
+	parent::__construct($message, $code);
 }
 
 // test if an error EXists
