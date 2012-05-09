@@ -1,0 +1,63 @@
+{{> header}}
+{{> style intro/styles}}
+<!--[if lte IE 7]>{{> style intro/styles-ie}}<![endif]-->
+{{> body_start}}
+	<p id="intro">
+		Hier ontwikkelt <a href="http://www.l3d.nl/">L3D</a> een serie tools
+		voor gebruik in de <a href="http://www.l3d.nl/downloaden">L3Daw software</a>.
+		Neem <a href="http://www.l3d.nl/contact">contact</a> op als je geïnteresseerd bent in het gebruik van deze tools.
+	</p>
+	
+	{{# tempt_next}}
+		<div id="right" class="temptation_next">
+			<h3><a href="{{public}}intro?page={{next_page_id}}" title="verder in de tijd"><span>&raquo;</span> {{title}}</a></h3>
+			<a class="thumb" href="{{public}}intro?page={{next_page_id}}"><img src="{{frontend}}img/intro/{{thumb}}" alt="screenshot van {{title}} (naar grote versie)"></a>
+			<p>{{text}}</p>
+			<p class="colophon">{{colophon}}</p>
+		</div>
+	{{/ tempt_next}}
+	{{^ tempt_next}}
+		<div id="contact">
+			<h3>Inspiratie gekregen?</h3>
+			<p>Wil je gebruik maken van deze tools? Je kunt ze <span class="call">aanvragen</span> voor jouw project.</p>
+			<p>Heb je inspiratie gekregen om <span class="call">zelf tools te maken</span>?</p>
+			<p>Neem <a href="http://www.l3d.nl/contact">contact</a> met ons op!</p>
+		</div>
+	{{/ tempt_next}}
+	
+	<div id="projects">
+		{{# projects}}
+			{{^ contact}}
+				<div>
+					<h3>{{title}}</h3>
+					<!--<a class="thumb lightbox" href="{{frontend}}img/intro/{{media}}"><img src="{{frontend}}img/intro/{{thumb}}" alt="screenshot van {{title}} (naar grote versie)"></a>-->
+					<a class="thumb lightbox" href="#"><img src="{{frontend}}img/intro/{{thumb}}" alt="screenshot van {{title}} (naar grote versie)"></a>
+					<p>{{text}}</p>
+					<p class="colophon">{{colophon}}</p>
+				</div>
+			{{/ contact}}
+		{{/ projects}}
+	</div>
+	
+	{{# tempt_prev}}
+		<div id="left" class="temptation_previous">
+			<h3><a href="{{public}}intro?page=-{{prev_page_id}}" title="terug in de tijd">{{title}} <span>&laquo;</span></a></h3>
+			<a class="thumb" href="{{public}}intro?page=-{{prev_page_id}}"><img src="{{frontend}}img/intro/{{thumb}}" alt="screenshot van {{title}} (naar grote versie)"></a>
+			<p>{{text}}</p>
+			<p class="colophon">{{colophon}}</p>
+		</div>
+	{{/ tempt_prev}}
+	
+	<ul id="development">
+		<p>We zijn voortdurend met nieuwe tools bezig. Wil je meedenken? Neem dan contact op!</p>
+		<li>
+			<h4>Upload</h4>
+			<p>Eenvoudig toevoegen van objecten</p>
+		</li>
+		<li>
+			<h4>Admin</h4>
+			<p>Wereldbeheer en inzicht in het gebruik</p>
+		</li>
+	</ul>
+{{> body_end}}
+{{> footer}}

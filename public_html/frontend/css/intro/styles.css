@@ -1,58 +1,11 @@
-/*
-	L3D red: #AA122B
-*/
-
-body {
-	margin: 0 auto;
-	width: 980px;
-	font-family: Verdana;
-	font-size: smaller;
-}
-
-h3, h4, h5, h6 {
-	color: #AA122B;
-}
 .term {
 	color: #AA122B;
 }
 .call {
-	/*color: #AA122B;*/
 	font-weight: bold;
 }
 .more a, .less {
 	background-color: #EEE;
-}
-
-#header {
-	margin-top: 1em;
-	height: 100%;
-	color: white;
-	background-color: #AA122B;
-	overflow: hidden;
-}
-h1 {
-	float: left;
-	margin: 0;
-	display: inline-block;
-	padding: 0.5em;
-	font-size: xx-large;
-	letter-spacing: 3px;
-}
-h1 a {
-	text-decoration: none;
-	color: inherit;
-}
-h2 {
-	margin: 0.5em auto;
-	width: 400px;
-	text-align: center;
-}
-
-#intro {
-	margin: 1.5em auto;
-	width: 400px;
-	text-align: center;
-	font-size: medium;
 }
 
 #left, #right {
@@ -88,7 +41,7 @@ h2 {
 	float: right;
 	width: 250px; /* max is 315px */
 	margin-left: 10px;
-	margin-right: 76px;
+	margin-right: 10px;
 	padding: 0 10px;
 }
 
@@ -143,29 +96,4 @@ h2 {
 #development li p {
 	margin-top: 0.25em;
 	margin-bottom: 0.25em;
-}
-
-#footer {
-	clear: both;
-	color: #AAA;
-	border-top: 1px solid #AA122B;
-}
-#menu {
-	float: right;
-	margin-left: 0;
-	padding-left: 0;
-	list-style-type: none;
-}
-#menu li {
-	float: left;
-	margin-left: 1em;
-}
-#menu a {
-	padding: 0.25em;
-	text-decoration: none;
-	color: #AA122B;
-	font-weight: bold;
-}
-#menu a:hover, #menu a:active {
-	text-decoration: underline;
 }

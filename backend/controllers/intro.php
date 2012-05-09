@@ -14,7 +14,9 @@ catch (Exception $e) {
 ------------------------------------------------------------------------------*/
 $projects_per_page = 3;
 $projects = array(
-	'contact',
+	array(
+		'contact' => true,
+	),
 	array(
 		'title' => 'Telegrammen',
 		'thumb' => 'telegram_thumb.png',
@@ -106,7 +108,7 @@ function more($type) {
 ------------------------------------------------------------------------------*/
 $page = 0;
 $page_max = floor( count($projects) / $projects_per_page );
-if (!empty($_GET['page']) && is_numeric($_GET['page']) && $_GET['page'] < 0) {
+if (!empty($_GET['page']) && is_numeric($_GET['page']) && (int)$_GET['page'] < 0) {
 	$page = (int)$_GET['page'] * -1;
 	if ($page > $page_max) {
 		$page = $page_max;
@@ -128,104 +130,24 @@ if ($page > 0) {
 	template
 ------------------------------------------------------------------------------*/
 
-$places = json_decode(PLACES, true);
+$data = array(
+	'tempt_next' => $tempt_next,
+	'tempt_prev' => $tempt_previous,
+	'projects' => $projects_shown,
+);
 
-?>
-<!DOCTYPE html>
-<html>
-<head>
-	<title>L3D tools</title>
-	<link rel="shortcut icon" href="/favicon.ico">
-	<link rel="stylesheet" type="text/css" media="all" href="<?php echo $places['www_frontend']; ?>css/intro/styles.css">
-	<!--[if lte IE 7]>
-	<link rel="stylesheet" type="text/css" media="all" href="<?php echo $places['www_frontend']; ?>css/intro/styles-ie.css">
-	<![endif]-->
-	<!--
-	<script type="text/javascript" src="<?php echo $places['www_frontend']; ?>js/intro/jquery-1.5.min.js"></script>
-	<script type="text/javascript" src="<?php echo $places['www_frontend']; ?>js/intro/scripts.js"></script>
-	-->
-</head>
-<body>
-	<div id="header">
-		<h1><a href="<?php echo $places['www']; ?>">L3D tools</a></h1>
-		<h2>tools voor virtuele omgevingen</h2>
-	</div>
-	<p id="intro">Hier ontwikkelt <a href="http://www.l3d.nl/">L3D</a> een serie tools voor gebruik in de <a href="http://www.l3d.nl/downloaden">L3Daw software</a>. Neem <a href="http://www.l3d.nl/contact">contact</a> op als je geïnteresseerd bent in het gebruik van deze tools.</p>
-	<?php
-	/*--- tempt user to next page ---*/
-	if ($tempt_next) {
-		$next_page = $page - 1;
-		if ($next_page > 0) {
-			$next_page *= -1;
-		}
-		$next_link = $places['www'].'intro?page='.$next_page;
-		echo NL.'	<div id="right" class="temptation_next">';
-		echo NL.'		<h3><a href="'.$next_link.'" title="verder in de tijd"><span>&raquo;</span> '.$tempt_next['title'].'</a></h3>';
-		echo NL.'		<a class="thumb" href="'.$next_link.'"><img src="'.$places['www_frontend'].'img/intro/'.$tempt_next['thumb'].'" alt="screenshot van '.$tempt_next['title'].' (naar grote versie)"></a>';
-		echo NL.'		<p>'.$tempt_next['text'].'</p>';
-		echo NL.'		<p class="colophon">'.$tempt_next['colophon'].'</p>';
-		#echo NL.'		<p class="link">&raquo; <a href="'.$next_link.'" title="naar '.$tempt_next['title'].'">naar de website</a></p>';
-		echo NL.'	</div>';
+if ($tempt_next) {
+	$next_page = $page - 1;
+	if ($next_page > 0) {
+		$next_page *= -1;
 	}
-	else {
-		echo NL.'	<div id="contact">';
-		echo NL.'		<h3>Inspiratie gekregen?</h3>';
-		echo NL.'		<p>Wil je gebruik maken van deze tools? Je kunt ze <span class="call">aanvragen</span> voor jouw project.</p>';
-		echo NL.'		<p>Heb je inspiratie gekregen om <span class="call">zelf tools te maken</span>?</p>';
-		echo NL.'		<p>Neem <a href="http://www.l3d.nl/contact">contact</a> met ons op!</p>';
-		echo NL.'	</div>';
-	}
-	
-	/*--- projects ---*/
-	echo NL.'	<div id="projects">';
-	foreach ($projects_shown as $i => $project) {
-		if ($project == 'contact') {
-			continue;
-		}
-		
-		echo NL.'		<div>';
-		echo NL.'			<h3>'.$project['title'].'</h3>';
-		echo NL.'			<a class="thumb lightbox" href="#'./*$places['www_frontend'].'img/intro/'.$project['media'].'*/'"><img src="'.$places['www_frontend'].'img/intro/'.$project['thumb'].'" alt="screenshot van '.$project['title'].' (naar grote versie)"></a>';
-		echo NL.'			<p>'.$project['text'].'</p>';
-		echo NL.'			<p class="colophon">'.$project['colophon'].'</p>';
-		#echo NL.'			<p class="link">&raquo; <a href="'.$project['link'].'" title="naar '.$project['title'].'">naar de website</a></p>';
-		echo NL.'		</div>';
-	}
-	echo NL.'	</div>';
-	
-	/*--- tempt user to previous page ---*/
-	if ($tempt_previous) {
-		$previous_page = $page + 1;
-		$previous_link = $places['www'].'intro?page=-'.$previous_page;
-		echo NL.'	<div id="left" class="temptation_next">';
-		echo NL.'		<h3><a href="'.$previous_link.'" title="terug in de tijd">'.$tempt_previous['title'].' <span>&laquo;</span></a></h3>';
-		echo NL.'		<a class="thumb" href="'.$previous_link.'"><img src="'.$places['www_frontend'].'img/intro/'.$tempt_previous['thumb'].'" alt="screenshot van '.$tempt_previous['title'].' (naar grote versie)"></a>';
-		echo NL.'		<p>'.$tempt_previous['text'].'</p>';
-		echo NL.'		<p class="colophon">'.$tempt_previous['colophon'].'</p>';
-		#echo NL.'		<p class="link">&raquo; <a href="'.$previous_link.'" title="naar '.$tempt_previous['title'].'">naar de website</a></p>';
-		echo NL.'	</div>';
-	}
-	
-	/*--- done ---*/
-	echo NL;
-	?>
-	<ul id="development">
-		<p>We zijn voortdurend met nieuwe tools bezig. Wil je meedenken? Neem dan contact op!</p>
-		<li>
-			<h4>Upload</h4>
-			<p>Eenvoudig toevoegen van objecten</p>
-		</li>
-		<li>
-			<h4>Admin</h4>
-			<p>Wereldbeheer en inzicht in het gebruik</p>
-		</li>
-	</ul>
-	<div id="footer">
-		<ul id="menu">
-			<li><a href="<?php echo $places['www']; ?>inloggen">inloggen</a></li>
-			<li><a href="http://www.l3d.nl/contact">contact</a></li>
-		</ul>
-		<p>Stichting L3D, <?php echo date('Y'); ?></p>
-	</div>
-</body>
-</html>
+	$data['next_page_id'] = $next_page;
+}
+
+if ($tempt_previous) {
+	$previous_page = $page + 1;
+	$data['prev_page_id'] = $previous_page;
+}
+
+page::title('tools voor virtuele omgevingen');
+page::show('intro/intro', $data);
