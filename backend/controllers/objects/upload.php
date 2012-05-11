@@ -23,7 +23,14 @@ if (empty($_FILES)) {
 }
 
 function show_error($error_type, $exception=false, $send_mail=true) {
-	#echo $error_type.': <pre>'; print_r($exception); echo '</pre>'.NLd; die;
+	try {
+		$session = load::model('session', $else='login');
+		$session->require_level('webmaster', $else='login');
+		echo $error_type.': <pre>'; print_r($exception); echo '</pre>'.NLd; die;
+	}
+	catch (Exception $e) {
+		// continue silently
+	}
 	error::mail($exception, $error_type);
 	load::redirect('objecten?fout='.$error_type);
 	exit;
@@ -51,11 +58,10 @@ if (!empty($_POST['type'])) {
 }
 
 try {
-	$fileinfo = upload::check($mime=false, $min='1', $max='1048576'); // 1mb
+	$fileinfo = upload::check($mime=false, $min='1', $max='5242880'); // 5mb
 	$file_name = preg_replace('/[^a-z0-9._-]+/', '', strtolower($fileinfo['name']));
 	
 	$file_path = upload::move($from=$fileinfo['path'], $to_data_path=false, $to_name=$file_name);
-	$file_path = dirname($file_path);
 }
 catch (Exception $e) {
 	show_error('upload', $e);
@@ -104,7 +110,7 @@ $unzipped_extensions = array_flip(array('dat', 'awg', 'rwx', 'cob', 'scn', 'x', 
 if (isset($unzipped_extensions[$file_ext])) {
 	
 	$file_name_original = $file_name;
-	$file_path_original = $file_path;
+	$file_path_original = dirname($file_path);
 	$file_name_zipped = str_replace('.'.$file_ext, '.zip', $file_name_original);
 	$full_path_original = $file_path_original.'/'.$file_name_original;
 	$full_path_zipped = $file_path_original.'/'.$file_name_zipped;
