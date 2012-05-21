@@ -134,7 +134,7 @@ if (isset($unzipped_extensions[$file_ext])) {
 	
 	// welcome to the new situation
 	$file_path = $full_path_zipped;
-	$file_name = $file_name_original;
+	$file_name = $file_name_zipped;
 }
 
 /*------------------------------------------------------------------------------
