@@ -21,7 +21,7 @@ private function get_pretty_type() {
 
 public function select($keys=false, $where=false, $group=false, $order=false, $limit=100) {
 	if ($order == false) {
-		$order = '-upload_time';
+		$order = 'filename';
 	}
 	
 	$all = parent::select($keys, $where, $group, $order, $limit);
@@ -64,8 +64,9 @@ public function select_recent() {
 		array('upload_time', '>', $recent),
 	);
 	$order = '-upload_time';
+	$limit = 5;
 	
-	return $this->select(false, $where);
+	return $this->select(false, $where, false, $order, $limit);
 }
 
 public function select_popular() {
