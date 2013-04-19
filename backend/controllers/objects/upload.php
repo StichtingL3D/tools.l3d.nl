@@ -147,12 +147,12 @@ if (isset($unzipped_extensions[$file_ext])) {
 
 $current_citizen_id = $session->user_id;
 
-$aiw_world = new world(28);
+$hmlexpo_aiw_world = new world(28);
 $bbcn_world = new world(24);
 $bbcn_playground_world = new world(25);
 
-if ($aiw_world->build_rights_for($current_citizen_id)) {
-	$chosen_op = 'aiw';
+if ($hmlexpo_aiw_world->build_rights_for($current_citizen_id)) {
+	$chosen_op = 'hmlexpo';
 }
 elseif ($bbcn_world->build_rights_for($current_citizen_id) || $bbcn_playground_world->build_rights_for($current_citizen_id)) {
 	$chosen_op = 'bbcn';

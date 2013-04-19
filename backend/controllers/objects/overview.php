@@ -36,14 +36,14 @@ $data = array(
 ------------------------------------------------------------------------------*/
 $current_citizen_id = $session->user_id;
 
-$aiw_world = new world(28);
+$hmlexpo_aiw_world = new world(28);
 $bbcn_world = new world(24);
 $bbcn_playground_world = new world(25);
 
 $citizen = new citizen($session->user_id);
 
 if (
-	$aiw_world->build_rights_for($current_citizen_id) == false &&
+	$hmlexpo_aiw_world->build_rights_for($current_citizen_id) == false &&
 	$bbcn_world->build_rights_for($current_citizen_id) == false &&
 	$bbcn_playground_world->build_rights_for($current_citizen_id) == false &&
 	$citizen->is_universect_or_higher() == false
