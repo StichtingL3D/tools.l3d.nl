@@ -138,11 +138,36 @@ if (isset($unzipped_extensions[$file_ext])) {
 }
 
 /*------------------------------------------------------------------------------
+	decide objectpath
+	
+	the OP is chosen based on building rights
+	@note: people with rights in multiple world(-groups), e.g. aiw and bbcn
+	       won't be able to use the tool, as there is no interface to choose OP
+------------------------------------------------------------------------------*/
+
+$current_citizen_id = $session->user_id;
+
+$aiw_world = new world(28);
+$bbcn_world = new world(24);
+$bbcn_playground_world = new world(25);
+
+if ($aiw_world->build_rights_for($current_citizen_id)) {
+	$chosen_op = 'aiw';
+}
+elseif ($bbcn_world->build_rights_for($current_citizen_id) || $bbcn_playground_world->build_rights_for($current_citizen_id)) {
+	$chosen_op = 'bbcn';
+}
+else {
+	show_error('multiple-ops');
+	return;
+}
+
+/*------------------------------------------------------------------------------
 	move to objectpath
 ------------------------------------------------------------------------------*/
 
 try {
-	$objectpath = new objectpath('bbcn');
+	$objectpath = new objectpath($chosen_op);
 	$objectpath->add_file($file_type, $file_path, $file_name);
 }
 catch (Exception $e) {

@@ -29,15 +29,25 @@ $data = array(
 
 /*------------------------------------------------------------------------------
 	check building rights
+	
+	you can add worlds to this check to allow those citizens to upload as well
+	@note: people with rights in multiple world(-groups), e.g. aiw and bbcn
+	       won't be able to use the tool, as there is no interface to choose OP
 ------------------------------------------------------------------------------*/
 $current_citizen_id = $session->user_id;
 
+$aiw_world = new world(28);
 $bbcn_world = new world(24);
 $bbcn_playground_world = new world(25);
 
 $citizen = new citizen($session->user_id);
 
-if ($bbcn_world->build_rights_for($current_citizen_id) == false && $bbcn_playground_world->build_rights_for($current_citizen_id) == false && $citizen->is_universect_or_higher() == false) {
+if (
+	$aiw_world->build_rights_for($current_citizen_id) == false &&
+	$bbcn_world->build_rights_for($current_citizen_id) == false &&
+	$bbcn_playground_world->build_rights_for($current_citizen_id) == false &&
+	$citizen->is_universect_or_higher() == false
+) {
 	load::redirect('intro');
 	exit;
 }
